@@ -4,14 +4,22 @@ var express = require('express');
 import { Request, Response, NextFunction } from 'express';
 var router = express.Router();
 
-// Home page route.
+// Home page that displays notes. Redirect to login if not signed in
 router.get('/', function(req: Request, res: Response) {
-  res.send('Wiki home page');
+  res.send('Homepage, where notes are displayed');
 });
 
 // About page route.
-router.get('/note', function(req: Request, res: Response) {
-  res.send('About this wiki');
+router.get('/notes/:id(\\d+)', function(req: Request, res: Response) {
+  res.send(`Note ${req.params.id}`);
+});
+
+router.get('/login', function(req: Request, res: Response) {
+  res.send('Login');
+});
+
+router.get('/register', function(req: Request, res: Response) {
+  res.send('Register');
 });
 
 /*
