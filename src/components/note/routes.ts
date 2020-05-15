@@ -3,10 +3,13 @@
 var express = require('express');
 import { Request, Response, NextFunction } from 'express';
 var router = express.Router();
+import { getNotes } from './model';
 
 // Home page that displays notes. Redirect to login if not signed in
 router.get('/', function(req: Request, res: Response) {
-  res.send('Homepage, where notes are displayed');
+  const ans = getNotes(req, res);
+  console.log('answer in the höööör' + ans);
+  //res.send('Homepage, where notes are displayed');
 });
 
 // About page route.

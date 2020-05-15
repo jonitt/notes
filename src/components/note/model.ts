@@ -1,20 +1,23 @@
-const cred = require('../../lib/credentials');
+const cred = require('../../lib/credentials/user');
 import { Request, Response, NextFunction } from 'express';
 const Pool = require('pg').Pool;
 const pool = new Pool({
   user: cred.username,
   host: 'localhost',
-  database: 'api',
+  database: cred.database,
   password: cred.password,
   port: 5432,
 });
-const getUsers = (request: Request, response: Response) => {
+
+export const getNotes = (request: Request, response: Response) => {
   pool.query(
-    'SELECT * FROM users ORDER BY id ASC',
+    'SELECT * FROM notes',
     (error: Error, results: any) => {
       if (error) {
         throw error;
       }
+      //console.log(results);
+      //return results;
       response.status(200).json(results.rows);
     }
   );

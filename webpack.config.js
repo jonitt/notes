@@ -2,10 +2,14 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
 module.exports = {
   mode: 'development',
-  entry: './dist/server.js',
+  entry: './src/frontend/index.js',
   devServer: {
     port: 9000,
-    contentBase: path.join(__dirname, '/dist'),
+    contentBase: path.join(__dirname, '/dist/frontend/dist'),
+  },
+  output: {
+    filename: 'front.js',
+    path: path.resolve(__dirname, 'dist/frontend'),
   },
   module: {
     rules: [
