@@ -2,10 +2,11 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
 module.exports = {
   mode: 'development',
-  entry: './src/frontend/index.js',
+  entry: ['babel-polyfill', './src/frontend/index.js'],
+  devtool: 'source-map',
   devServer: {
     port: 9000,
-    contentBase: path.join(__dirname, '/dist/frontend/dist'),
+    contentBase: path.join(__dirname, '/dist/frontend'),
   },
   output: {
     filename: 'front.js',
@@ -60,7 +61,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: './template.html',
-      filename: './dist/index.html',
+      filename: './index.html',
     }),
   ],
 };
