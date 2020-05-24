@@ -2,26 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getName, setName } from '../../redux/app';
+import { withStyles } from '@material-ui/core/styles';
+import Notes from '../notes/Notes';
+
+const styles = {
+  root: {
+    margin: '60px 10px 0 10px',
+  },
+};
 
 export class App extends Component {
   state = {};
 
   componentWillMount() {
     const { getName, name, dispatch } = this.props;
-    //console.log(dispatch(setName('pekka')), 'state name', name);
-    console.log(getName(), name);
-    console.log(setName('Kalle'), name);
     console.log(dispatch(setName('Kalle')), name);
   }
   componentDidMount() {
     const { getName, name, dispatch } = this.props;
-    console.log(getName(), name);
-    console.log(setName('Kalle'), name);
     console.log(dispatch(setName('Boris')), name);
   }
   render() {
-    const { name } = this.props;
-    return <div>Heloust heloust {name}</div>;
+    const { name, classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <Notes />
+      </div>
+    );
   }
 }
 
@@ -30,6 +37,6 @@ export default connect(
   dispatch => ({
     getName: bindActionCreators(getName, dispatch),
     setName: bindActionCreators(setName, dispatch),
-    dispatch
+    dispatch,
   })
-)(App);
+)(withStyles(styles)(App));

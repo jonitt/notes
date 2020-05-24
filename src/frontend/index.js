@@ -11,6 +11,9 @@ import rootSaga from './redux/rootSaga';
 import { getNameSaga, watchApp } from './redux/app';
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import './styles.css';
+import { ThemeProvider } from '@material-ui/styles';
+import { theme } from './theme';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -18,12 +21,14 @@ const store = configureStore({
   middleware: [...getDefaultMiddleware(), sagaMiddleware],
 });
 sagaMiddleware.run(rootSaga);
-window.store = store;
+//window.store = store;
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={createBrowserHistory()}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Router>
   </Provider>,
   document.getElementById('root')
