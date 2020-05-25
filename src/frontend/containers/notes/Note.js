@@ -35,7 +35,7 @@ const styles = {
     fontSize: '1.1rem',
   },
   info: {
-    fontSize: '1.2rem',
+    fontSize: '1.3rem',
     marginLeft: '18px',
   },
 };

@@ -9,6 +9,7 @@ import {
   Typography,
   Divider,
   TextField,
+  IconButton,
 } from '@material-ui/core';
 //import styles from './Note.css';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,10 +26,26 @@ const styles = {
     padding: '0',
     marginTop: '45px',
     marginLeft: '-4px',
+    overflowY: 'auto',
   },
   headingField: {
-    margin: '0 80px 0 15px',
-    textSize: '1.2rem',
+    boxSizing: 'border-box',
+    padding: '0 80px 0 15px',
+    width: '100%',
+    //display: 'inline-block',
+  },
+  headingText: {
+    fontSize: '2.2rem',
+    //lineHeight: '50px'
+  },
+  infoField: {
+    boxSizing: 'border-box',
+    padding: '10px 20px 0 15px',
+    width: '100%',
+    height: '100%',
+  },
+  calendarButton: {
+    //display: 'inline-block',
   },
 };
 
@@ -42,11 +59,29 @@ export class NoteEdit extends Component {
         <Card className={classes.card}>
           <Grid container>
             <Grid item xs={12}>
-              <TextField className={classes.headingField} />
+              <TextField
+                className={classes.headingField}
+                placeholder='What to remember?'
+                InputProps={{
+                  classes: {
+                    root: classes.headingText,
+                  },
+                }}
+              />
+              <IconButton
+                className={`fas fa-calendar-alt ${classes.calendarButton}`}
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextField multiline />
+              <TextField
+                multiline
+                className={classes.infoField}
+                placeholder='Add more info...'
+              />
             </Grid>
+            <i className='fas fa-plus'></i>
+            <i className='fas fa-times'></i>
+            <i className='fas fa-check'></i>
           </Grid>
         </Card>
       </Grid>

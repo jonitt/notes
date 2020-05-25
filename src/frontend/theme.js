@@ -2,10 +2,26 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import cyan from '@material-ui/core/colors/cyan';
 
-export const  theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
-    primary: { main: '#00acc1' },
+    primary: { main: '#959595' },
     secondary: purple,
+  },
+  overrides: {
+    MuiInput: {
+      root: {
+        color: 'white',
+        
+      },
+      underline: {
+        '&:before': {
+          borderBottom: `3px solid #3D3D3D`,
+        },
+        '&:hover:not($disabled):before': {
+          borderBottom: `3px solid #3D3D3D`,
+        },  
+      },
+    },
   },
   typography: {
     fontFamily: ['Arial'].join(','),
@@ -36,7 +52,7 @@ export const  theme = createMuiTheme({
       fontSize: '1.3rem',
     },
     // this one is used for red error text
-    subtitle2: { 
+    subtitle2: {
       color: '#f44336',
       fontSize: '1.5rem',
     },
