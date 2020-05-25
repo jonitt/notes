@@ -27,7 +27,7 @@ const styles = {
     color: '#AE1E1E'
   },
   icon: {
-    transform: 'scale(2.3)',
+    transform: 'scale(2.1)',
     width: '25px',
     height: '25px',
   },

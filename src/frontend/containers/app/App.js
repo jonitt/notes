@@ -4,10 +4,14 @@ import { bindActionCreators } from 'redux';
 import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
 import Notes from '../notes/Notes';
+import Login from '../login/Login';
 
 const styles = {
   root: {
-    margin: '60px 10px 0 10px',
+    padding: '60px 10px 0 10px',
+    width: '100%',
+    height: '100%',
+    boxSizing: 'border-box',
   },
 };
 
@@ -26,7 +30,8 @@ export class App extends Component {
     const { name, classes } = this.props;
     return (
       <div className={classes.root}>
-        <Notes />
+        {/*<Notes />*/}
+        <Login />
       </div>
     );
   }

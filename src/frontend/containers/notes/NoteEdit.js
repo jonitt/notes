@@ -51,7 +51,7 @@ const styles = {
     position: 'absolute',
     top: 20,
     right: 27, 
-    transform: 'scale(2.5)',
+    transform: 'scale(2.4)',
     width: '25px',
     height: '25px',
     color: '#757575'
