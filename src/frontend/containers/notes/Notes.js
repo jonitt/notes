@@ -5,12 +5,10 @@ import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Note from './Note';
 import NoteEdit from './NoteEdit';
+import NoteEditActions from './NoteEditActions';
 
 const styles = {
-  root: {
-    maxWidth: '540px',
-    margin: '0 70px 0 70px',
-  },
+  notes: { position: 'relative', maxWidth: '540px', margin: '0 70px 0 70px' },
 };
 
 export class Notes extends Component {
@@ -20,7 +18,8 @@ export class Notes extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Grid container className={classes.root}>
+        <Grid container className={classes.notes}>
+          <NoteEditActions />
           <NoteEdit />
           <Note />
           <Note />

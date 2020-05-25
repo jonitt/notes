@@ -11,7 +11,6 @@ export const theme = createMuiTheme({
     MuiInput: {
       root: {
         color: 'white',
-        
       },
       underline: {
         '&:before': {
@@ -19,7 +18,7 @@ export const theme = createMuiTheme({
         },
         '&:hover:not($disabled):before': {
           borderBottom: `3px solid #3D3D3D`,
-        },  
+        },
       },
     },
   },

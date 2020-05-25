@@ -22,11 +22,12 @@ const styles = {
     borderBottom: '6px solid #3D3D3D',
     color: 'white',
     width: '495px',
-    height: '190px',
+    height: '220px',
     padding: '0',
     marginTop: '45px',
     marginLeft: '-4px',
     overflowY: 'auto',
+    position: 'relative',
   },
   headingField: {
     boxSizing: 'border-box',
@@ -40,12 +41,20 @@ const styles = {
   },
   infoField: {
     boxSizing: 'border-box',
-    padding: '10px 20px 0 15px',
+    padding: '0px 20px 0 15px',
+    marginTop: '18px',
     width: '100%',
     height: '100%',
   },
   calendarButton: {
     //display: 'inline-block',
+    position: 'absolute',
+    top: 20,
+    right: 27, 
+    transform: 'scale(2.5)',
+    width: '25px',
+    height: '25px',
+    color: '#757575'
   },
 };
 
@@ -79,9 +88,6 @@ export class NoteEdit extends Component {
                 placeholder='Add more info...'
               />
             </Grid>
-            <i className='fas fa-plus'></i>
-            <i className='fas fa-times'></i>
-            <i className='fas fa-check'></i>
           </Grid>
         </Card>
       </Grid>
