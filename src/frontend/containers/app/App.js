@@ -23,14 +23,18 @@ export class App extends Component {
     const { getName, name, dispatch } = this.props;
     console.log(dispatch(setName('Boris')), name);
     NotesApi.fetchNotes().then(res => console.log(res));
+    NotesApi.deleteNote(1);
+    //NotesApi.addNote('Make a cake', '2020-05-30', 'for myself');
+    NotesApi.editNote(
+      'Käy poimimassa marjoja',
+      '2020-06-02',
+      'etenkin mustikoita ja mansikoita',
+      4
+    );
   }
   render() {
     const { name, classes } = this.props;
-    return (
-      <div className={classes.root}>
-        {true ? <Notes /> : <Login />}
-      </div>
-    );
+    return <div className={classes.root}>{true ? <Notes /> : <Login />}</div>;
   }
 }
 

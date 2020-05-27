@@ -24,8 +24,10 @@ server.use(function(req: Request, res: Response, next: Function) {
   next();
 });
 server.use(express.static(path.join(__dirname + '\\frontend')));
+const bodyParser = require("body-parser");
+server.use(express.urlencoded());
+server.use(express.json());
 server.use(noteRoutes);
-console.log(__dirname + '\\frontend');
 
 function initiateHeader(res: Response) {
   res.set({

@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Note from './Note';
 import NoteEdit from './NoteEdit';
 import NoteEditActions from './NoteEditActions';
+import { getNotes } from '../../redux/notes';
 
 const styles = {
   notes: { position: 'relative', maxWidth: '540px', margin: '0 70px 0 70px' },
@@ -14,8 +15,14 @@ const styles = {
 export class Notes extends Component {
   state = {};
 
+  componentDidMount() {
+    const { getNotes, dispatch } = this.props;
+    dispatch(getNotes());
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes ,notes} = this.props;
+    console.log('notes in the hööd', notes)
     return (
       <div>
         <Grid container className={classes.notes}>
@@ -31,8 +38,9 @@ export class Notes extends Component {
 }
 
 export default connect(
-  state => ({ name: state.app.name }),
+  state => ({ notes: state.notes.notes }),
   dispatch => ({
+    getNotes: bindActionCreators(getNotes, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Notes));

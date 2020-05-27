@@ -3,11 +3,11 @@
 var express = require('express');
 import { Request, Response, NextFunction } from 'express';
 var router = express.Router();
-import { getNotes } from './model';
+import * as db from './model';
 
 // Home page that displays notes. Redirect to login if not signed in
 router.get('/notes', function(req: Request, res: Response) {
-  getNotes(req, res);
+  db.getNotes(req, res);
   //res.send('Homepage, where notes are displayed');
 });
 
@@ -19,9 +19,37 @@ router.get('/', function(req: Request, res: Response) {
 });
 */
 
+/*
+
+Notes:
+- Get all notes (? allow lazy loading ?)
+- Update certain note
+- Add new note
+- Delete note
+
+Login:
+- check username is free
+- check password is good
+- register
+- login
+*/
+/*
+app.get('/users', db.getUsers)
+app.get('/users/:id', db.getUserById)
+app.post('/users', db.createUser)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)*/
 // About page route.
-router.get('/notes/:id(\\d+)', function(req: Request, res: Response) {
-  res.send(`Note ${req.params.id}`);
+router.delete('/notes/:id(\\d+)', function(req: Request, res: Response) {
+  db.deleteNote(req, res);
+});
+
+router.post('/notes', function(req: Request, res: Response) {
+  db.addNote(req, res);
+});
+
+router.put('/notes/:id(\\d+)', function(req: Request, res: Response) {
+  db.updateNote(req, res);
 });
 
 router.get('/login', function(req: Request, res: Response) {
