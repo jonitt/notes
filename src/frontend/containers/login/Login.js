@@ -32,7 +32,7 @@ const styles = {
   },
   button: {
     marginTop: '27px',
-  },
+  }
 };
 
 export class Login extends Component {

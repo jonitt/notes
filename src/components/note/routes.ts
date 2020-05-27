@@ -6,11 +6,18 @@ var router = express.Router();
 import { getNotes } from './model';
 
 // Home page that displays notes. Redirect to login if not signed in
-router.get('/', function(req: Request, res: Response) {
-  const ans = getNotes(req, res);
-  console.log('answer in the höööör' + ans);
+router.get('/notes', function(req: Request, res: Response) {
+  getNotes(req, res);
   //res.send('Homepage, where notes are displayed');
 });
+
+/*
+// Home page that displays notes. Redirect to login if not signed in
+router.get('/', function(req: Request, res: Response) {
+  getNotes(req, res);
+  //res.send('Homepage, where notes are displayed');
+});
+*/
 
 // About page route.
 router.get('/notes/:id(\\d+)', function(req: Request, res: Response) {

@@ -5,6 +5,7 @@ import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
 import Notes from '../notes/Notes';
 import Login from '../login/Login';
+import * as NotesApi from '../../api/notes';
 
 const styles = {
   root: {
@@ -18,20 +19,16 @@ const styles = {
 export class App extends Component {
   state = {};
 
-  componentWillMount() {
-    const { getName, name, dispatch } = this.props;
-    console.log(dispatch(setName('Kalle')), name);
-  }
   componentDidMount() {
     const { getName, name, dispatch } = this.props;
     console.log(dispatch(setName('Boris')), name);
+    NotesApi.fetchNotes().then(res => console.log(res));
   }
   render() {
     const { name, classes } = this.props;
     return (
       <div className={classes.root}>
-        {/*<Notes />*/}
-        <Login />
+        {true ? <Notes /> : <Login />}
       </div>
     );
   }

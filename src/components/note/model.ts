@@ -19,6 +19,7 @@ export const getNotes = (request: Request, response: Response) => {
       //console.log(results);
       //return results;
       response.status(200).json(results.rows);
+      console.log(results)
     }
   );
 };
