@@ -34,7 +34,10 @@ const notesSlice = createSlice({
       selectedIndex: action.payload,
     }),
     setEditOpen: (state, action) => ({ ...state, editOpen: action.payload }),
-    openEdit: (state, action) => ({ ...state }),
+    openEdit: state => ({ ...state }),
+    closeEdit: state => state,
+    deleteNote: (state, action) => state,
+    addNote: (state, action) => state,
   },
 });
 
@@ -44,6 +47,9 @@ export const {
   setSelectedIndex,
   setEditOpen,
   openEdit,
+  closeEdit,
+  deleteNote,
+  addNote,
 } = notesSlice.actions;
 
 const notesReducer = notesSlice.reducer;
@@ -53,12 +59,43 @@ export default notesReducer;
 //############################# SAGAS ####################################
 //########################################################################
 
+export function* deleteNoteSaga() {
+  try {
+    const index = action.payload;
+    const notes = yield select(getNotesSelect);
+    const note = notes[index];
+    notes.splice(index, 1);
+
+    yield call(NotesApi.deleteNote(note.id));
+    yield put({ type: setNotes.type, psyload: notes });
+    yield put({ type: setEditOpen.type, psyload: false });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* addNoteSaga() {
+  try {
+    yield put({ type: setEditOpen.type, payload: false });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export function* openEditSaga(action) {
   const index = action.payload;
-  console.log(index, action);
+  console.log(index, 'opening this index');
   try {
     yield put({ type: setSelectedIndex.type, payload: index });
     yield put({ type: setEditOpen.type, payload: true });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* closeEditSaga() {
+  try {
+    yield put({ type: setEditOpen.type, payload: false });
   } catch (err) {
     console.log(err);
   }
@@ -77,32 +114,13 @@ export function* getNotesSaga() {
 //############################ WATCHERS ##################################
 //########################################################################
 
-function* watchGetNotes() {
-  try {
-    yield takeLatest(getNotes.type, getNotesSaga);
-    /*while (true) {
-    console.log('so saga get name neithwr');
-    /*
-    const {fullName} = yield take(actions.LOAD_MORE_STARGAZERS)
-    yield fork(loadStargazers, fullName, true)
-    
-    const { name } = yield take(GET_NAME);
-    yield fork(getNameSagan, name);
-  }*/
-  } catch (e) {
-    console.log(e);
-  }
-}
-function* watchOpenEdit() {
-  try {
-    yield takeLatest(openEdit.type, openEditSaga);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 export function* watchNotes() {
-  yield all([watchGetNotes(), watchOpenEdit()]);
+  yield all([
+    takeLatest(getNotes.type, getNotesSaga),
+    takeLatest(openEdit.type, openEditSaga),
+    takeLatest(closeEdit.type, closeEditSaga),
+    takeLatest(deleteNote.type, deleteNoteSaga),
+  ]);
 }
 
 //########################################################################

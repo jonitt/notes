@@ -10,11 +10,28 @@ import {
   Divider,
   TextField,
   IconButton,
+  ClickAwayListener,
 } from '@material-ui/core';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+  DatePicker,
+} from '@material-ui/pickers';
 //import styles from './Note.css';
 import { withStyles } from '@material-ui/core/styles';
+import formatISO from 'date-fns/formatISO';
 
 const styles = {
+  root: {
+    position: 'fixed',
+    top: '-30px',
+    zIndex: 9,
+    opacity: 0.9,
+  },
+  mouseOn: {
+    opacity: 1,
+  },
   card: {
     background: '#2D2D2D',
     border: 0,
@@ -31,7 +48,7 @@ const styles = {
   },
   headingField: {
     boxSizing: 'border-box',
-    padding: '0 80px 0 15px',
+    padding: '0 20px 0 15px',
     width: '100%',
     //display: 'inline-block',
   },
@@ -46,95 +63,120 @@ const styles = {
     width: '100%',
     height: '100%',
   },
-  calendarButton: {
-    //display: 'inline-block',
+  actions: {
+    width: '50px',
     position: 'absolute',
-    top: 20,
-    right: 27,
-    transform: 'scale(2.4)',
-    width: '25px',
-    height: '25px',
-    color: '#757575',
+    top: 52,
+    right: -40,
+    height: '215px',
   },
-  actions: { width: '50px', position: 'absolute', top: 55, right: -25 },
   buttonDisabled: {
     color: '#373737',
   },
   check: {
     transform: 'scale(2)',
     color: '#36752F',
-    marginTop: '72px',
-  },
-  cross: {
-    transform: 'scale(2.2)',
-    marginTop: '31px',
-    color: '#762E2E',
+    marginTop: '90px',
   },
   trash: {
     transform: 'scale(2)',
-    marginTop: '25px',
+    marginTop: '20px',
     color: '#762E2E',
   },
   icon: {
     width: '25px',
     height: '25px',
+    marginLeft: '18px',
+  },
+  date: {
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 0,
+    right: 5,
+    width: '100px',
   },
 };
 
 export class NoteEdit extends Component {
-  state = {};
+  state = { mouseOn: true, newDate: '' };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { date } = this.props;
+    if (prevProps.date !== date) {
+      this.setState({
+        newDate: date,
+      });
+    }
+  }
 
   render() {
-    const { classes } = this.props;
+    const { mouseOn, newDate } = this.state;
+    const { classes, open, note, info, closeEdit } = this.props;
     return (
-      <Grid item xs={12}>
-        {true ? (
-          <div>
-            <Grid container className={classes.actions}>
-              <Grid item xs={12}>
-                <IconButton
-                  className={`fas fa-check ${classes.icon} ${classes.check}`}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <IconButton
-                  className={`fas fa-times ${classes.icon} ${classes.cross}`}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <IconButton
-                  className={`fas fa-trash-alt ${classes.icon} ${classes.trash}`}
-                />
-              </Grid>
-            </Grid>
-            <Card className={classes.card}>
-              <Grid container>
+      <div>
+        {open ? (
+          <ClickAwayListener onClickAway={() => closeEdit()}>
+            <Grid
+              item
+              xs={12}
+              className={`${classes.root} ${mouseOn ? classes.mouseOn : ''}`}
+              onMouseEnter={() => this.setState({ mouseOn: true })}
+              onMouseLeave={() =>
+                setTimeout(() => this.setState({ mouseOn: false }), 100)
+              }
+            >
+              <Grid container className={classes.actions}>
                 <Grid item xs={12}>
-                  <TextField
-                    className={classes.headingField}
-                    placeholder='What to remember?'
-                    InputProps={{
-                      classes: {
-                        root: classes.headingText,
-                      },
-                    }}
-                  />
                   <IconButton
-                    className={`fas fa-calendar-alt ${classes.calendarButton}`}
+                    className={`fas fa-check ${classes.icon} ${classes.check}`}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    multiline
-                    className={classes.infoField}
-                    placeholder='Add more info...'
+                  <IconButton
+                    className={`fas fa-trash-alt ${classes.icon} ${classes.trash}`}
                   />
                 </Grid>
               </Grid>
-            </Card>
-          </div>
+              <Card className={classes.card}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <TextField
+                      className={classes.headingField}
+                      defaultValue={note}
+                      placeholder='What to remember?'
+                      InputProps={{
+                        classes: {
+                          root: classes.headingText,
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      defaultValue={info}
+                      multiline
+                      className={classes.infoField}
+                      placeholder='Add more info...'
+                    />
+                  </Grid>
+
+                  <DatePicker
+                    className={classes.date}
+                    onChange={date =>
+                      this.setState({ newDate: formatISO(date) })
+                    }
+                    //disableToolbar
+                    variant='inline'
+                    format='dd.MM.yyyy'
+                    margin='normal'
+                    value={newDate}
+                  />
+                </Grid>
+              </Card>
+            </Grid>
+          </ClickAwayListener>
         ) : null}
-      </Grid>
+      </div>
     );
   }
 }

@@ -11,6 +11,8 @@ import {
   setEditOpen,
   setSelectedIndex,
   openEdit,
+  closeEdit,
+  deleteNote,
 } from '../../redux/notes';
 
 const styles = {
@@ -27,43 +29,45 @@ export class Notes extends Component {
 
   makeNoteComponents = notes => {
     const { openEdit, editOpen, selectedIndex } = this.props;
-    console.log('idnex ja open', selectedIndex, editOpen);
     let noteComps = [];
-    for (let j = 0, i = notes.length - 1; i >= 0; i--, j++) {
+    for (let i = notes.length - 1, j = 0; i >= 0; i--, j++) {
       let note = notes[i];
-      //if
-      if (editOpen && selectedIndex === j) {
-        const editComp = <NoteEdit key={note.id}/>
-        if (selectedIndex % 2 != 0) {
-          //place edit window before previous component,
-          //so edit window appears on same line as selected component existed
-          const prevComp = noteComps[j - 1];
-          noteComps[j - 1] = editComp;
-          noteComps.push(prevComp);
-        } else {
-          noteComps.push(editComp);
-        }
-      } else
-        noteComps.push(
-          <Note
-            note={note.note}
-            date={note.date}
-            info={note.info}
-            key={note.id}
-            index={j}
-            openEdit={openEdit}
-          />
-        );
+      noteComps.push(
+        <Note
+          note={note.note}
+          date={note.date}
+          info={note.info}
+          key={note.id}
+          index={j}
+          openEdit={openEdit}
+        />
+      );
     }
     return noteComps;
   };
 
   render() {
-    const { classes, notes, editOpen } = this.props;
+    const {
+      classes,
+      notes,
+      editOpen,
+      selectedIndex,
+      closeEdit,
+      deleteNote,
+    } = this.props;
+    const selectedNote = notes[selectedIndex];
     return (
       <div>
         <Grid container className={classes.notes}>
-          <NoteEditActions />
+          <NoteEdit
+            open={editOpen}
+            note={selectedNote ? selectedNote.note : null}
+            info={selectedNote ? selectedNote.info : null}
+            date={selectedNote ? selectedNote.date : null}
+            closeEdit={closeEdit}
+            deleteNote={() => deleteNote(selectedIndex)}
+          />
+          <NoteEditActions open={editOpen} />
           {this.makeNoteComponents(notes)}
         </Grid>
       </div>
@@ -79,9 +83,11 @@ export default connect(
   }),
   dispatch => ({
     openEdit: bindActionCreators(openEdit, dispatch),
+    closeEdit: bindActionCreators(closeEdit, dispatch),
     getNotes: bindActionCreators(getNotes, dispatch),
     setSelectedIndex: bindActionCreators(setSelectedIndex, dispatch),
     setEditOpen: bindActionCreators(setEditOpen, dispatch),
+    deleteNote: bindActionCreators(deleteNote, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Notes));

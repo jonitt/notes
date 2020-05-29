@@ -5,7 +5,7 @@ import cyan from '@material-ui/core/colors/cyan';
 export const theme = createMuiTheme({
   palette: {
     primary: { main: '#959595' },
-    secondary: { main: '#404040' },
+    secondary: { main: '#404040', },
   },
   overrides: {
     MuiInput: {

@@ -14,6 +14,8 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import './styles.css';
 import { ThemeProvider } from '@material-ui/styles';
 import { theme } from './theme';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -26,9 +28,11 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={createBrowserHistory()}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </MuiPickersUtilsProvider>
     </Router>
   </Provider>,
   document.getElementById('root')
