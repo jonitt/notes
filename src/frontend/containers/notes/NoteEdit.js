@@ -50,11 +50,34 @@ const styles = {
     //display: 'inline-block',
     position: 'absolute',
     top: 20,
-    right: 27, 
+    right: 27,
     transform: 'scale(2.4)',
     width: '25px',
     height: '25px',
-    color: '#757575'
+    color: '#757575',
+  },
+  actions: { width: '50px', position: 'absolute', top: 55, right: -25 },
+  buttonDisabled: {
+    color: '#373737',
+  },
+  check: {
+    transform: 'scale(2)',
+    color: '#36752F',
+    marginTop: '72px',
+  },
+  cross: {
+    transform: 'scale(2.2)',
+    marginTop: '31px',
+    color: '#762E2E',
+  },
+  trash: {
+    transform: 'scale(2)',
+    marginTop: '25px',
+    color: '#762E2E',
+  },
+  icon: {
+    width: '25px',
+    height: '25px',
   },
 };
 
@@ -65,31 +88,52 @@ export class NoteEdit extends Component {
     const { classes } = this.props;
     return (
       <Grid item xs={12}>
-        <Card className={classes.card}>
-          <Grid container>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.headingField}
-                placeholder='What to remember?'
-                InputProps={{
-                  classes: {
-                    root: classes.headingText,
-                  },
-                }}
-              />
-              <IconButton
-                className={`fas fa-calendar-alt ${classes.calendarButton}`}
-              />
+        {true ? (
+          <div>
+            <Grid container className={classes.actions}>
+              <Grid item xs={12}>
+                <IconButton
+                  className={`fas fa-check ${classes.icon} ${classes.check}`}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <IconButton
+                  className={`fas fa-times ${classes.icon} ${classes.cross}`}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <IconButton
+                  className={`fas fa-trash-alt ${classes.icon} ${classes.trash}`}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                multiline
-                className={classes.infoField}
-                placeholder='Add more info...'
-              />
-            </Grid>
-          </Grid>
-        </Card>
+            <Card className={classes.card}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.headingField}
+                    placeholder='What to remember?'
+                    InputProps={{
+                      classes: {
+                        root: classes.headingText,
+                      },
+                    }}
+                  />
+                  <IconButton
+                    className={`fas fa-calendar-alt ${classes.calendarButton}`}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    className={classes.infoField}
+                    placeholder='Add more info...'
+                  />
+                </Grid>
+              </Grid>
+            </Card>
+          </div>
+        ) : null}
       </Grid>
     );
   }

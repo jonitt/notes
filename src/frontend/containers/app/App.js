@@ -21,7 +21,6 @@ export class App extends Component {
 
   componentDidMount() {
     const { getName, name, dispatch } = this.props;
-    console.log(dispatch(setName('Boris')), name);
     NotesApi.fetchNotes().then(res => console.log(res));
     NotesApi.deleteNote(1);
     //NotesApi.addNote('Make a cake', '2020-05-30', 'for myself');

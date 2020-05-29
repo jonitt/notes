@@ -40,26 +40,32 @@ const styles = {
   },
 };
 
+/*
+  IN NOTES NEWEST IS LAST, SO ADDING NEW ONES IS EZ IN FRONTEND
+*/
+
 export class Note extends Component {
   state = {};
 
+  parseDate = d => {
+    const date = new Date(d);
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, note, date, info, openEdit, index } = this.props;
     return (
       <Grid item xs={6}>
         <Card className={classes.card}>
-          <CardHeader
-            title='Shopping list'
-            titleTypographyProps={{ variant: 'h3' }}
-          />
-          <Grid className={classes.content}>
-            <Typography className={classes.info}>
-              buy the carrots and potato
-            </Typography>
-            <Typography className={classes.date}>
-              22.05.2020
-            </Typography>
-          </Grid>
+          <CardActionArea onClick={() => openEdit(index)}>
+            <CardHeader title={note} titleTypographyProps={{ variant: 'h3' }} />
+            <Grid className={classes.content}>
+              <Typography className={classes.info}>{info}</Typography>
+              <Typography className={classes.date}>
+                {this.parseDate(date)}
+              </Typography>
+            </Grid>
+          </CardActionArea>
         </Card>
       </Grid>
     );

@@ -15,6 +15,8 @@ import * as NotesApi from '../api/notes';
 
 const initialState = {
   notes: [],
+  editOpen: false,
+  selectedIndex: -1,
 };
 
 //########################################################################
@@ -27,13 +29,22 @@ const notesSlice = createSlice({
   reducers: {
     getNotes: state => state,
     setNotes: (state, action) => ({ ...state, notes: action.payload }),
-    /*setName: (state, action) => 
-      ({...state, name: action.payload })
-    ,*/
+    setSelectedIndex: (state, action) => ({
+      ...state,
+      selectedIndex: action.payload,
+    }),
+    setEditOpen: (state, action) => ({ ...state, editOpen: action.payload }),
+    openEdit: (state, action) => ({ ...state }),
   },
 });
 
-export const { getNotes, setNotes } = notesSlice.actions;
+export const {
+  getNotes,
+  setNotes,
+  setSelectedIndex,
+  setEditOpen,
+  openEdit,
+} = notesSlice.actions;
 
 const notesReducer = notesSlice.reducer;
 export default notesReducer;
@@ -42,10 +53,20 @@ export default notesReducer;
 //############################# SAGAS ####################################
 //########################################################################
 
+export function* openEditSaga(action) {
+  const index = action.payload;
+  console.log(index, action);
+  try {
+    yield put({ type: setSelectedIndex.type, payload: index });
+    yield put({ type: setEditOpen.type, payload: true });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export function* getNotesSaga() {
   try {
     const notes = yield call(NotesApi.fetchNotes);
-    console.log('luikauksella getnotes saga')
     yield put({ type: setNotes.type, payload: notes });
   } catch (err) {
     console.log(err);
@@ -72,9 +93,16 @@ function* watchGetNotes() {
     console.log(e);
   }
 }
+function* watchOpenEdit() {
+  try {
+    yield takeLatest(openEdit.type, openEditSaga);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 export function* watchNotes() {
-  yield all([watchGetNotes()]);
+  yield all([watchGetNotes(), watchOpenEdit()]);
 }
 
 //########################################################################

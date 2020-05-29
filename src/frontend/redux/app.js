@@ -66,19 +66,14 @@ export default appReducer;
 //############################# SAGAS ####################################
 //########################################################################
 
-function* getDataSaga() {
-  console.log('at getdata saga');
-}
 
 export function* getNameSaga() {
-  console.log('at getname sagaaaaa');
   // const asd = yield select(actions.getName);
   const asd = yield select(getNameSelect);
   console.log(asd);
 }
 
 export function* setNameSaga() {
-  console.log('at setname saga!!!');
   // const asd = yield select(actions.getName);
   const asd = yield select(getNameSelect);
   console.log(asd);
