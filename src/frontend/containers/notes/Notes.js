@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Note from './Note';
 import NoteEdit from './NoteEdit';
-import NoteEditActions from './NoteEditActions';
+import NoteAddButton from './NoteAddButton';
 import {
   getNotes,
   setEditOpen,
@@ -13,6 +13,7 @@ import {
   openEdit,
   closeEdit,
   deleteNote,
+  submitNote,
 } from '../../redux/notes';
 
 const styles = {
@@ -30,15 +31,16 @@ export class Notes extends Component {
   makeNoteComponents = notes => {
     const { openEdit, editOpen, selectedIndex } = this.props;
     let noteComps = [];
-    for (let i = notes.length - 1, j = 0; i >= 0; i--, j++) {
+    for (let i = notes.length - 1; i >= 0; i--) {
       let note = notes[i];
       noteComps.push(
         <Note
+          editOpen={editOpen}
           note={note.note}
           date={note.date}
           info={note.info}
           key={note.id}
-          index={j}
+          index={i}
           openEdit={openEdit}
         />
       );
@@ -54,7 +56,10 @@ export class Notes extends Component {
       selectedIndex,
       closeEdit,
       deleteNote,
+      openEdit,
+      submitNote
     } = this.props;
+    console.log('What is selected index', selectedIndex);
     const selectedNote = notes[selectedIndex];
     return (
       <div>
@@ -64,10 +69,13 @@ export class Notes extends Component {
             note={selectedNote ? selectedNote.note : null}
             info={selectedNote ? selectedNote.info : null}
             date={selectedNote ? selectedNote.date : null}
+            id={selectedNote ? selectedNote.id : null}
             closeEdit={closeEdit}
             deleteNote={() => deleteNote(selectedIndex)}
+            isNewNote={selectedIndex < 0}
+            submitNote={submitNote}
           />
-          <NoteEditActions open={editOpen} />
+          <NoteAddButton editOpen={editOpen} openEdit={() => openEdit()} />
           {this.makeNoteComponents(notes)}
         </Grid>
       </div>
@@ -88,6 +96,7 @@ export default connect(
     setSelectedIndex: bindActionCreators(setSelectedIndex, dispatch),
     setEditOpen: bindActionCreators(setEditOpen, dispatch),
     deleteNote: bindActionCreators(deleteNote, dispatch),
+    submitNote: bindActionCreators(submitNote, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Notes));

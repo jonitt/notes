@@ -29,19 +29,13 @@ const styles = {
   },
 };
 
-export class NoteEditActions extends Component {
+export class NoteAddButton extends Component {
   state = {};
 
   render() {
-    const { classes } = this.props;
-    return (
-      <IconButton
-        className={`fas fa-plus ${classes.plus} ${
-          false ? classes.buttonDisabled : ''
-        }`}
-      />
-    );
+    const { classes, editOpen, openEdit } = this.props;
+    return <IconButton disabled={editOpen} className={`fas fa-plus ${classes.plus}`} onClick={() => openEdit()}/>;
   }
 }
 
-export default withStyles(styles)(NoteEditActions);
+export default withStyles(styles)(NoteAddButton);

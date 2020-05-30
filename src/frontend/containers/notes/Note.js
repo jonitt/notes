@@ -53,11 +53,14 @@ export class Note extends Component {
   };
 
   render() {
-    const { classes, note, date, info, openEdit, index } = this.props;
+    const { classes, note, date, info, openEdit, index, editOpen } = this.props;
     return (
       <Grid item xs={6}>
         <Card className={classes.card}>
-          <CardActionArea onClick={() => openEdit(index)}>
+          <CardActionArea
+            disabled={editOpen}
+            onClick={() => openEdit(index)}
+          >
             <CardHeader title={note} titleTypographyProps={{ variant: 'h3' }} />
             <Grid className={classes.content}>
               <Typography className={classes.info}>{info}</Typography>

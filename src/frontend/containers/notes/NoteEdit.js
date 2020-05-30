@@ -86,7 +86,7 @@ const styles = {
   icon: {
     width: '25px',
     height: '25px',
-    marginLeft: '18px',
+    marginLeft: '25px',
   },
   date: {
     position: 'absolute',
@@ -98,24 +98,72 @@ const styles = {
 };
 
 export class NoteEdit extends Component {
-  state = { mouseOn: true, newDate: '' };
+  state = {
+    mouseOn: true,
+    note: '',
+    info: '',
+    date: formatISO(new Date()),
+    noteError: false,
+  };
 
   componentDidUpdate(prevProps, prevState) {
-    const { date } = this.props;
-    if (prevProps.date !== date) {
+    const { date, note, id, info } = this.props;
+    if (
+      prevProps.date !== date ||
+      prevProps.note !== note ||
+      prevProps.id !== id
+    ) {
       this.setState({
-        newDate: date,
+        note: note,
+        info: info,
+        date: date || formatISO(new Date()),
       });
     }
   }
 
+  validateSubmit = () => {
+    const { submitNote, id } = this.props;
+    const { note, date, info } = this.state;
+    if (!note) {
+      this.setState({
+        noteError: true,
+      });
+    } else {
+      submitNote({ note, date, info, id });
+    }
+  };
+
+  changeNoteValue(e) {
+    this.setState({ note: e.target.value, noteError: false });
+  }
+
+  handleThrowAway() {
+    const { closeEdit, deleteNote, isNewNote } = this.props;
+    this.setState({ noteError: false });
+    isNewNote ? closeEdit() : deleteNote();
+  }
+
+  handleClose() {
+    const { closeEdit } = this.props;
+    closeEdit();
+    this.setState({ noteError: false });
+  }
+
   render() {
-    const { mouseOn, newDate } = this.state;
-    const { classes, open, note, info, closeEdit } = this.props;
+    const { mouseOn, date, noteError } = this.state;
+    const {
+      classes,
+      open,
+      note,
+      info,
+      closeEdit,
+      deleteNote,
+      isNewNote,
+    } = this.props;
     return (
       <div>
         {open ? (
-          <ClickAwayListener onClickAway={() => closeEdit()}>
+          <ClickAwayListener onClickAway={() => this.handleClose()}>
             <Grid
               item
               xs={12}
@@ -128,11 +176,13 @@ export class NoteEdit extends Component {
               <Grid container className={classes.actions}>
                 <Grid item xs={12}>
                   <IconButton
+                    onClick={() => this.validateSubmit()}
                     className={`fas fa-check ${classes.icon} ${classes.check}`}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <IconButton
+                    onClick={() => this.handleThrowAway()}
                     className={`fas fa-trash-alt ${classes.icon} ${classes.trash}`}
                   />
                 </Grid>
@@ -141,8 +191,10 @@ export class NoteEdit extends Component {
                 <Grid container>
                   <Grid item xs={12}>
                     <TextField
+                      error={noteError}
                       className={classes.headingField}
                       defaultValue={note}
+                      onChange={e => this.changeNoteValue(e)}
                       placeholder='What to remember?'
                       InputProps={{
                         classes: {
@@ -162,14 +214,12 @@ export class NoteEdit extends Component {
 
                   <DatePicker
                     className={classes.date}
-                    onChange={date =>
-                      this.setState({ newDate: formatISO(date) })
-                    }
+                    onChange={date => this.setState({ date: formatISO(date) })}
                     //disableToolbar
                     variant='inline'
                     format='dd.MM.yyyy'
                     margin='normal'
-                    value={newDate}
+                    value={date}
                   />
                 </Grid>
               </Card>
