@@ -67,10 +67,6 @@ export function* submitNoteSaga(action) {
     let notes = yield select(getNotesSelect);
     if (id) {
       const index = yield select(getSelectedIndexSelect);
-      console.log(
-        'HERE THE SHEEET',
-        notes.slice(0, index).push({ note, date, info, id })
-      );
       yield call(NotesApi.editNote, note, date, info, id);
       let newNotes = notes.slice(0, index);
       newNotes.push({ note, date, info, id });

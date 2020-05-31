@@ -10,7 +10,7 @@ const pool = new Pool({
 });
 
 export const getNotes = (request: Request, response: Response) => {
-  pool.query('SELECT * FROM notes', (error: Error, results: any) => {
+  pool.query('SELECT * FROM notes ORDER BY id ASC', (error: Error, results: any) => {
     if (error) {
       throw error;
     }
@@ -33,7 +33,7 @@ export const addNote = (request: Request, response: Response) => {
       }
       //console.log(results);
       //return results;
-      response.status(200).json(true);
+      response.status(200).json(true  );
     }
   );
 };

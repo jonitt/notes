@@ -57,17 +57,21 @@ export class Notes extends Component {
       closeEdit,
       deleteNote,
       openEdit,
-      submitNote
+      submitNote,
     } = this.props;
-    console.log('What is selected index', selectedIndex);
+    console.log('notes in Notes', notes);
     const selectedNote = notes[selectedIndex];
     return (
       <div>
         <Grid container className={classes.notes}>
           <NoteEdit
             open={editOpen}
-            note={selectedNote ? selectedNote.note : null}
-            info={selectedNote ? selectedNote.info : null}
+            note={selectedNote ? selectedNote.note.trim() : null}
+            info={
+              selectedNote && selectedNote.info
+                ? selectedNote.info.trim()
+                : null
+            }
             date={selectedNote ? selectedNote.date : null}
             id={selectedNote ? selectedNote.id : null}
             closeEdit={closeEdit}
