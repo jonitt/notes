@@ -201,14 +201,18 @@ export class NoteEdit extends Component {
                           root: classes.headingText,
                         },
                       }}
+                      inputProps={{ maxLength: 40 }}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      onChange={e => this.setState({ info: e.target.value })}
                       defaultValue={info}
                       multiline
+                      rows={6}
                       className={classes.infoField}
                       placeholder='Add more info...'
+                      InputProps={{ disableUnderline: true }}
                     />
                   </Grid>
 

@@ -20,8 +20,8 @@ const styles = {
     width: '25px',
     height: '25px',
     position: 'fixed',
-    right: '30px',
-    top: '30px',
+    left: '605px',
+    top: '32px',
     zIndex: '10',
   },
   buttonDisabled: {

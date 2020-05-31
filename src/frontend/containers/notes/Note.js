@@ -22,22 +22,23 @@ const styles = {
     height: '190px',
     padding: '0',
     marginTop: '45px',
+    position: 'relative',
   },
   content: {
     height: '135px',
-    position: 'relative',
   },
   date: {
     color: '#ACACAC',
     position: 'absolute',
-    bottom: 4,
+    top: 168,
     right: 10,
-    fontSize: '1.1rem',
+    fontSize: '12px',
   },
   info: {
     fontSize: '1.3rem',
     marginLeft: '18px',
   },
+  header: {},
 };
 
 /*
@@ -57,11 +58,12 @@ export class Note extends Component {
     return (
       <Grid item xs={6}>
         <Card className={classes.card}>
-          <CardActionArea
-            disabled={editOpen}
-            onClick={() => openEdit(index)}
-          >
-            <CardHeader title={note} titleTypographyProps={{ variant: 'h3' }} />
+          <CardActionArea disabled={editOpen} onClick={() => openEdit(index)}>
+            <CardHeader
+              title={note}
+              titleTypographyProps={{ variant: 'h3' }}
+              className={classes.header}
+            />
             <Grid className={classes.content}>
               <Typography className={classes.info}>{info}</Typography>
               <Typography className={classes.date}>

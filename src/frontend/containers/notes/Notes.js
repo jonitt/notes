@@ -17,7 +17,7 @@ import {
 } from '../../redux/notes';
 
 const styles = {
-  notes: { position: 'relative', maxWidth: '540px', margin: '0 70px 0 70px' },
+  notes: { position: 'relative', width: '540px', margin: '0 70px 0 70px' },
 };
 
 export class Notes extends Component {
