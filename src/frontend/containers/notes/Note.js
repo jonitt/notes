@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 //import styles from './Note.css';
 import { withStyles } from '@material-ui/core/styles';
+import { theme } from '../../theme';
 
 const styles = {
   card: {
@@ -23,9 +24,18 @@ const styles = {
     padding: '0',
     marginTop: '45px',
     position: 'relative',
+    [theme.breakpoints.down('xs')]: {
+      width: '70%',
+      height: '220px',
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    },
   },
   content: {
     height: '135px',
+    [theme.breakpoints.down('xs')]: {
+      height: '165px',
+    },
   },
   date: {
     color: '#ACACAC',
@@ -33,6 +43,9 @@ const styles = {
     top: 168,
     right: 10,
     fontSize: '12px',
+    [theme.breakpoints.down('xs')]: {
+      top: 198
+    },
   },
   info: {
     fontSize: '1.3rem',
@@ -56,7 +69,7 @@ export class Note extends Component {
   render() {
     const { classes, note, date, info, openEdit, index, editOpen } = this.props;
     return (
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={6}>
         <Card className={classes.card}>
           <CardActionArea disabled={editOpen} onClick={() => openEdit(index)}>
             <CardHeader

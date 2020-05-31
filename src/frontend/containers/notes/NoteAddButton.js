@@ -12,6 +12,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { theme } from '../../theme';
 
 const styles = {
   plus: {
@@ -22,7 +23,12 @@ const styles = {
     position: 'fixed',
     left: '605px',
     top: '32px',
-    zIndex: '10',
+    //zIndex: '10',
+    [theme.breakpoints.down('xs')]: {
+      left: 'auto',
+      right: 20,
+      top: 20
+    },
   },
   buttonDisabled: {
     color: '#373737',

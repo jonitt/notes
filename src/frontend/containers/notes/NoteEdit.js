@@ -21,13 +21,24 @@ import {
 //import styles from './Note.css';
 import { withStyles } from '@material-ui/core/styles';
 import formatISO from 'date-fns/formatISO';
+import { theme } from '../../theme';
 
 const styles = {
   root: {
+    width: '100%',
+    position:'relative'
+  },
+  gridContainer: {
     position: 'fixed',
     top: '-30px',
     zIndex: 9,
     opacity: 0.9,
+    maxWidth: '1000px',
+    minWidth: '270px',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      //marginRight: 'auto'
+    },
   },
   mouseOn: {
     opacity: 1,
@@ -45,6 +56,13 @@ const styles = {
     marginLeft: '-4px',
     overflowY: 'auto',
     position: 'relative',
+    [theme.breakpoints.down('xs')]: {
+      width: '85%',
+      marginLeft: '10px',
+      maxWidth: '1000px',
+      boxSizing: 'border-box',
+      //marginRight: 'auto'
+    },
   },
   headingField: {
     boxSizing: 'border-box',
@@ -69,6 +87,10 @@ const styles = {
     top: 52,
     right: -40,
     height: '215px',
+    zIndex: 11,
+    [theme.breakpoints.down('xs')]: {
+      right: '4%'
+    },
   },
   buttonDisabled: {
     color: '#373737',
@@ -161,13 +183,13 @@ export class NoteEdit extends Component {
       isNewNote,
     } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         {open ? (
           <ClickAwayListener onClickAway={() => this.handleClose()}>
             <Grid
               item
               xs={12}
-              className={`${classes.root} ${mouseOn ? classes.mouseOn : ''}`}
+              className={`${classes.gridContainer} ${mouseOn ? classes.mouseOn : ''}`}
               onMouseEnter={() => this.setState({ mouseOn: true })}
               onMouseLeave={() =>
                 setTimeout(() => this.setState({ mouseOn: false }), 100)

@@ -7,6 +7,15 @@ export const theme = createMuiTheme({
     primary: { main: '#959595' },
     secondary: { main: '#404040', },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 660,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
   overrides: {
     MuiInput: {
       root: {

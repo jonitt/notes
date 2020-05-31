@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Note from './Note';
 import NoteEdit from './NoteEdit';
 import NoteAddButton from './NoteAddButton';
+import { theme } from '../../theme';
 import {
   getNotes,
   setEditOpen,
@@ -17,7 +18,21 @@ import {
 } from '../../redux/notes';
 
 const styles = {
-  notes: { position: 'relative', width: '540px', margin: '0 70px 0 70px' },
+  root: {
+    width: '100%',
+    position: 'relative'
+  },
+  notes: {
+    position: 'relative',
+    maxWidth: '540px',
+    minWidth: '300px',
+    margin: '0 70px 0 70px',
+    [theme.breakpoints.down('xs')]: {
+      margin: '0 ',
+      width: '100%',
+      maxWidth: '1000px'
+    },
+  },
 };
 
 export class Notes extends Component {
@@ -59,10 +74,9 @@ export class Notes extends Component {
       openEdit,
       submitNote,
     } = this.props;
-    console.log('notes in Notes', notes);
     const selectedNote = notes[selectedIndex];
     return (
-      <div>
+      <div className={classes.root}>
         <Grid container className={classes.notes}>
           <NoteEdit
             open={editOpen}
