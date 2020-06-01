@@ -16,6 +16,7 @@ import { bindActionCreators } from 'redux';
 import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
 import Notes from '../notes/Notes';
+import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -32,7 +33,7 @@ const styles = {
   },
   button: {
     marginTop: '27px',
-  }
+  },
 };
 
 export class Login extends Component {
@@ -44,6 +45,7 @@ export class Login extends Component {
     return (
       <div className={classes.root}>
         <Grid container justify='center'>
+          <Link to='/notes'>Notessss </Link>
           <Grid item container xs={12} justify='center'>
             <TextField
               id='filled-required'

@@ -7,6 +7,7 @@ import Notes from '../notes/Notes';
 import Login from '../login/Login';
 import * as NotesApi from '../../api/notes';
 import { theme } from '../../theme';
+import Router from '../../router/Router';
 
 const styles = {
   root: {
@@ -16,7 +17,7 @@ const styles = {
     boxSizing: 'border-box',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      padding: '5px'
+      padding: '5px',
     },
   },
 };
@@ -30,7 +31,11 @@ export class App extends Component {
   }
   render() {
     const { name, classes } = this.props;
-    return <div className={classes.root}>{true ? <Notes /> : <Login />}</div>;
+    return (
+      <div className={classes.root}>
+        <Router />
+      </div>
+    );
   }
 }
 

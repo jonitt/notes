@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const noteRoutes = require('./components/note/routes');
 const cred = require('./lib/credentials/user');
+const bodyParser = require("body-parser");
 import { getNotes } from './components/note/model';
 
 const server = express();
@@ -24,7 +25,6 @@ server.use(function(req: Request, res: Response, next: Function) {
   next();
 });
 server.use(express.static(path.join(__dirname + '\\frontend')));
-const bodyParser = require("body-parser");
 server.use(express.urlencoded());
 server.use(express.json());
 server.use(noteRoutes);
