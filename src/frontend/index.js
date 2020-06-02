@@ -16,6 +16,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { theme } from './theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import history from './router/history';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -27,7 +28,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={createBrowserHistory()}>
+    <Router history={history}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <ThemeProvider theme={theme}>
           <App />

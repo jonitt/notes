@@ -28,7 +28,7 @@ export const addNote = (note, date, info) =>
     .then(res => res.json())
     .catch(err => console.log(err));
 
-export const editNote = (note, date, info, id) => 
+export const editNote = (note, date, info, id) =>
   fetch(`${URL_BASE}notes/${id}`, {
     mode: 'cors',
     method: 'PUT',

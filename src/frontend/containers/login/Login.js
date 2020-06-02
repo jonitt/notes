@@ -16,6 +16,8 @@ import { bindActionCreators } from 'redux';
 import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
 import Notes from '../notes/Notes';
+import * as loginApi from '../../api/login';
+import { login } from '../../redux/auth';
 import { Link } from 'react-router-dom';
 
 const styles = {
@@ -37,20 +39,44 @@ const styles = {
 };
 
 export class Login extends Component {
-  state = { registering: true };
+  state = {
+    registering: false,
+    username: '',
+    password: '',
+    repeatPassword: '',
+  };
+
+  handleChangeUsername(e) {
+    const username = e.target.value;
+
+    this.setState({ username });
+  }
+
+  handleChangePassword(e) {
+    const password = e.target.value;
+
+    this.setState({ password });
+  }
+
+  handleChangeRepeatPassword(e) {
+    const repeatPassword = e.target.value;
+
+    this.setState({ repeatPassword });
+  }
 
   render() {
-    const { name, classes } = this.props;
-    const { registering } = this.state;
+    const { name, classes, login } = this.props;
+    const { registering, username, password, repeatPassword } = this.state;
     return (
       <div className={classes.root}>
         <Grid container justify='center'>
-          <Link to='/notes'>Notessss </Link>
           <Grid item container xs={12} justify='center'>
             <TextField
               id='filled-required'
               label='Username'
               className={classes.field}
+              inputProps={{ maxLength: 50 }}
+              onChange={e => this.handleChangeUsername(e)}
             />
           </Grid>
           <Grid item container xs={12} justify='center'>
@@ -59,6 +85,8 @@ export class Login extends Component {
               label='Password'
               type='password'
               autoComplete='current-password'
+              inputProps={{ maxLength: 40 }}
+              onChange={e => this.handleChangePassword(e)}
             />
           </Grid>
           {registering ? (
@@ -68,6 +96,8 @@ export class Login extends Component {
                 label='Password again'
                 type='password'
                 autoComplete='current-password'
+                inputProps={{ maxLength: 40 }}
+                onChange={e => this.handleChangeRepeatPassword(e)}
               />
             </Grid>
           ) : null}
@@ -76,6 +106,12 @@ export class Login extends Component {
               variant='contained'
               color='secondary'
               className={classes.button}
+              type='submit'
+              onClick={
+                registering
+                  ? null
+                  : () => console.log(login({ username, password }))
+              }
             >
               {registering ? 'REGISTER' : 'LOGIN'}
             </Button>
@@ -96,6 +132,7 @@ export class Login extends Component {
 export default connect(
   state => ({ name: state.app.name }),
   dispatch => ({
+    login: bindActionCreators(login, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Login));

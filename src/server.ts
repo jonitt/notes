@@ -1,25 +1,18 @@
 const express = require('express');
 import { Request, Response, NextFunction } from 'express';
-const { Pool } = require('pg');
 const path = require('path');
 const cors = require('cors');
 const noteRoutes = require('./components/note/routes');
-const cred = require('./lib/credentials/user');
-const bodyParser = require("body-parser");
+const authRoutes = require('./components/auth/routes');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 import { getNotes } from './components/note/model';
+const cookie = require('./lib/credentials/cookie');
 
 const server = express();
-//const client = new Client();
-
-const pool = new Pool({
-  user: cred.username,
-  host: 'localhost',
-  database: cred.database,
-  password: cred.password,
-  port: 5432,
-});
 
 server.use(cors());
+
 server.use(function(req: Request, res: Response, next: Function) {
   initiateHeader(res);
   next();
@@ -27,13 +20,22 @@ server.use(function(req: Request, res: Response, next: Function) {
 server.use(express.static(path.join(__dirname + '\\frontend')));
 server.use(express.urlencoded());
 server.use(express.json());
+server.use(
+  session({
+    secret: cookie.secret,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
 server.use(noteRoutes);
+server.use(authRoutes);
 
 function initiateHeader(res: Response) {
   res.set({
     'X-XSS-Protection': '1; mode=block',
     'X-Frame-Options': 'DENY',
-    'X-Content-Type-Options': 'nosniff'
+    'X-Content-Type-Options': 'nosniff',
   });
   return res;
 }
