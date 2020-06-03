@@ -2,14 +2,16 @@ const express = require('express');
 import { Request, Response, NextFunction } from 'express';
 const path = require('path');
 const cors = require('cors');
-const noteRoutes = require('./components/note/routes');
-const authRoutes = require('./components/auth/routes');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-import { getNotes } from './components/note/model';
-const cookie = require('./lib/credentials/cookie');
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+const secret = require('./lib/credentials/secret');
+const noteRoutes = require('./components/note/routes');
+const authRoutes = require('./components/auth/routes');
 
 const server = express();
+const client = redis.createClient();
 
 server.use(cors());
 
@@ -22,9 +24,15 @@ server.use(express.urlencoded());
 server.use(express.json());
 server.use(
   session({
-    secret: cookie.secret,
+    secret,
     resave: true,
     saveUninitialized: true,
+    store: new redisStore({
+      host: 'localhost',
+      port: 6379,
+      client: client,
+      ttl: 260,
+    }),
   })
 );
 
@@ -39,21 +47,7 @@ function initiateHeader(res: Response) {
   });
   return res;
 }
-/*
-pool.connect();
 
-pool.query(
-  'SELECT $1::text as message',
-  ['Hello world!'],
-  (err: Error, res: any) => {
-    console.log(err ? err.stack : res.rows[0].message); // Hello World!
-    //client.end();
-  }
-);
-server.get('/', function(req: Request, res: Response) {
-  res.send('Hello World!');
-});
-*/
 server.listen(3000, function() {
-  console.log('Example server listening on port 3000!');
+  console.log('Server listening on port 3000!');
 });

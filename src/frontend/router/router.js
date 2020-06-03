@@ -10,9 +10,9 @@ class Router extends Component {
         <Route path='/' exact>
           {true ? <Redirect to='/login' /> : <Notes />}
         </Route>
-        <Route path='/notes' component={Notes} />
-        <Route path='/login' component={Login} />
-        <Route path='/register' component={Login} />
+        <Route path='/notes' component={() => <Notes />} />
+        <Route path='/login' component={() => <Login />} />
+        <Route path='/register' component={() => <Login registering/>} />
       </Switch>
     );
   }

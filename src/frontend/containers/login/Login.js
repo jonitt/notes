@@ -17,8 +17,8 @@ import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
 import Notes from '../notes/Notes';
 import * as loginApi from '../../api/login';
-import { login } from '../../redux/auth';
-import { Link } from 'react-router-dom';
+import { login, register } from '../../redux/auth';
+import { Link, Redirect } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -40,10 +40,9 @@ const styles = {
 
 export class Login extends Component {
   state = {
-    registering: false,
     username: '',
     password: '',
-    repeatPassword: '',
+    passwordRepeat: '',
   };
 
   handleChangeUsername(e) {
@@ -58,18 +57,32 @@ export class Login extends Component {
     this.setState({ password });
   }
 
-  handleChangeRepeatPassword(e) {
-    const repeatPassword = e.target.value;
+  handleChangePasswordRepeat(e) {
+    const passwordRepeat = e.target.value;
 
-    this.setState({ repeatPassword });
+    this.setState({ passwordRepeat });
   }
 
   render() {
-    const { name, classes, login } = this.props;
-    const { registering, username, password, repeatPassword } = this.state;
+    const {
+      name,
+      classes,
+      login,
+      loginSuccess,
+      registering,
+      loginError,
+      registerError,
+      register,
+    } = this.props;
+    const { username, password, passwordRepeat } = this.state;
     return (
       <div className={classes.root}>
         <Grid container justify='center'>
+          <Grid item container xs={12} justify='center'>
+            <Typography variant='subtitle2'>
+              {registering ? registerError : loginError}
+            </Typography>
+          </Grid>
           <Grid item container xs={12} justify='center'>
             <TextField
               id='filled-required'
@@ -97,7 +110,7 @@ export class Login extends Component {
                 type='password'
                 autoComplete='current-password'
                 inputProps={{ maxLength: 40 }}
-                onChange={e => this.handleChangeRepeatPassword(e)}
+                onChange={e => this.handleChangePasswordRepeat(e)}
               />
             </Grid>
           ) : null}
@@ -109,8 +122,8 @@ export class Login extends Component {
               type='submit'
               onClick={
                 registering
-                  ? null
-                  : () => console.log(login({ username, password }))
+                  ? () => register({ username, password, passwordRepeat })
+                  : () => login({ username, password })
               }
             >
               {registering ? 'REGISTER' : 'LOGIN'}
@@ -118,9 +131,11 @@ export class Login extends Component {
           </Grid>
           {registering ? null : (
             <Grid item container xs={12} justify='center'>
-              <Button color='primary' className={classes.field}>
-                REGISTER
-              </Button>
+              <Link to='/register'>
+                <Button color='primary' className={classes.field}>
+                  REGISTER
+                </Button>
+              </Link>
             </Grid>
           )}
         </Grid>
@@ -130,9 +145,14 @@ export class Login extends Component {
 }
 
 export default connect(
-  state => ({ name: state.app.name }),
+  state => ({
+    loginSuccess: state.auth.loginSuccess,
+    loginError: state.auth.loginError,
+    registerError: state.auth.registerError,
+  }),
   dispatch => ({
     login: bindActionCreators(login, dispatch),
+    register: bindActionCreators(register, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Login));
