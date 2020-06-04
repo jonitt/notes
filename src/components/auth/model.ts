@@ -4,7 +4,7 @@ const pool = require('../../lib/pool');
 
 export const validateRegister = (req: Request, res: Response) => {
   var { username, password, passwordRepeat } = req.body;
-  username = username.trim();
+  username = username ? username.trim() : username;
   if (!(username && password && passwordRepeat)) {
     res
       .status(400)
@@ -26,7 +26,6 @@ export const validateRegister = (req: Request, res: Response) => {
       if (error) {
         throw error;
       }
-      console.log(results.rows);
       if (results.rows.length > 0) {
         res
           .status(400)
@@ -64,11 +63,10 @@ export const validateLogin = (req: Request, res: Response) => {
         }
         if (results.rows.length > 0) {
           const user = results.rows[0];
-          console.log(user.password, password);
           bcrypt.compare(password, user.password, (err: Error, valid: any) => {
             if (valid) {
               req.session.loggedin = true;
-              req.session.username = username;
+              req.session.userId = user.id;
               res.status(200).json({ error: false, message: 'Login success' });
             } else {
               res.status(401).json({ error: true, message: 'Wrong password' });
@@ -79,7 +77,6 @@ export const validateLogin = (req: Request, res: Response) => {
           res.status(401).json({ error: true, message: 'Incorrect username' });
         }
 
-        //console.log(results);
         //return results;
       }
     );

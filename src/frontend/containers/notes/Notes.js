@@ -75,6 +75,7 @@ export class Notes extends Component {
       submitNote,
     } = this.props;
     const selectedNote = notes[selectedIndex];
+    console.log('cookie',document.cookie);
     return (
       <div className={classes.root}>
         <Grid container className={classes.notes}>

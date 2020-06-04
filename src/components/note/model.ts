@@ -9,17 +9,15 @@ export const getNotes = (request: Request, response: Response) => {
       if (error) {
         throw error;
       }
-      //console.log(results);
+      console.log(results);
       //return results;
-      response.status(200).json(results.rows);
+      response.status(200).json({ notes: results.rows });
     }
   );
 };
 
 export const addNote = (request: Request, response: Response) => {
   const { note, date, info } = request.body;
-  console.log(note, date, info);
-  console.log('putting new noteeeee');
   pool.query(
     `INSERT INTO notes (note, date, info) VALUES ($1, $2, $3)`,
     [note, date, info],
@@ -27,8 +25,6 @@ export const addNote = (request: Request, response: Response) => {
       if (error) {
         throw error;
       }
-      //console.log(results);
-      //return results;
       response.status(201).json(true);
     }
   );

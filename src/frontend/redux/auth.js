@@ -63,9 +63,8 @@ export function* loginSaga(action) {
     const { username, password } = action.payload;
     const res = yield call(loginApi.login, username, password);
     if (!res.error) {
-      yield put({ type: setError.type, payload: '' });
+      yield put({ type: setLoginError.type, payload: '' });
       history.push('/notes');
-      console.log(url);
       //yield put({ type: setLoginSuccess.type, payload: true });
     } else {
       yield put({ type: setLoginError.type, payload: res.message });

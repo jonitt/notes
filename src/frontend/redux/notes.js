@@ -11,7 +11,8 @@ import {
   all,
   takeLatest,
 } from 'redux-saga/effects';
-import * as NotesApi from '../api/notes';
+import * as notesApi from '../api/notes';
+import history from '../router/history';
 
 const initialState = {
   notes: [],
@@ -67,13 +68,13 @@ export function* submitNoteSaga(action) {
     let notes = yield select(getNotesSelect);
     if (id) {
       const index = yield select(getSelectedIndexSelect);
-      yield call(NotesApi.editNote, note, date, info, id);
+      yield call(notesApi.editNote, note, date, info, id);
       let newNotes = notes.slice(0, index);
       newNotes.push({ note, date, info, id });
       newNotes = newNotes.concat(notes.slice(index + 1));
       yield put({ type: setNotes.type, payload: newNotes });
     } else {
-      yield call(NotesApi.addNote, note, date, info);
+      yield call(notesApi.addNote, note, date, info);
       yield put({ type: getNotes.type });
     }
     yield put({ type: setSelectedIndex.type, payload: -1 });
@@ -91,7 +92,7 @@ export function* deleteNoteSaga(action) {
     const note = notes[index];
     //notes.splice(index, 1);
     notes = notes.slice(0, index).concat(notes.slice(index + 1));
-    yield call(NotesApi.deleteNote, note.id);
+    yield call(notesApi.deleteNote, note.id);
     yield put({ type: setNotes.type, payload: notes });
     yield put({ type: setSelectedIndex.type, payload: -1 });
     yield put({ type: setEditOpen.type, payload: false });
@@ -133,8 +134,13 @@ export function* closeEditSaga() {
 
 export function* getNotesSaga() {
   try {
-    const notes = yield call(NotesApi.fetchNotes);
-    yield put({ type: setNotes.type, payload: notes });
+    const res = yield call(notesApi.fetchNotes);
+    console.log('notes are', res);
+    if (res.redirect) {
+      history.push(res.redirect);
+    } else {
+      yield put({ type: setNotes.type, payload: res.notes });
+    }
   } catch (err) {
     console.log(err);
   }
