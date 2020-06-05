@@ -27,6 +27,7 @@ var router = require('./lib/router');
 var authDb = require('./components/auth/model');
 var server = express();
 var client = redis.createClient(process.env.REDIS_URL);
+console.log(process.env.REDIS_URL, ' s what');
 server.use(cors({
     origin: true,
     credentials: true
@@ -43,10 +44,7 @@ server.use(session({
     secret: secret,
     resave: true,
     saveUninitialized: false,
-    store: new redisStore({
-        client: client,
-        ttl: 260
-    }),
+    store: new redisStore({ client: client }),
     cookie: {
         secure: false,
         httpOnly: true
