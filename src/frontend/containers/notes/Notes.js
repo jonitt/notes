@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Note from './Note';
 import NoteEdit from './NoteEdit';
@@ -16,11 +16,12 @@ import {
   deleteNote,
   submitNote,
 } from '../../redux/notes';
+import { logout } from '../../redux/auth';
 
 const styles = {
   root: {
     width: '100%',
-    position: 'relative'
+    position: 'relative',
   },
   notes: {
     position: 'relative',
@@ -30,9 +31,25 @@ const styles = {
     [theme.breakpoints.down('xs')]: {
       margin: '0 ',
       width: '100%',
-      maxWidth: '1000px'
+      maxWidth: '1000px',
     },
   },
+  logout: {
+    position: 'absolute',
+    left: 0,
+    top: -55,
+    left: -5,
+    zIndex: 10,
+    [theme.breakpoints.down('xs')]: {
+      top: -5,
+    },
+  },
+  emptyText: {
+    [theme.breakpoints.down('xs')]: {
+      padding: 5,
+      paddingTop: '50px',
+    },
+  }
 };
 
 export class Notes extends Component {
@@ -60,7 +77,7 @@ export class Notes extends Component {
         />
       );
     }
-    return noteComps;
+    return noteComps.length > 0 ? noteComps : null;
   };
 
   render() {
@@ -73,10 +90,16 @@ export class Notes extends Component {
       deleteNote,
       openEdit,
       submitNote,
+      finishedLoading,
+      logout,
     } = this.props;
     const selectedNote = notes[selectedIndex];
-    return (
+    console.log('cookie', document.cookie);
+    return finishedLoading ? (
       <div className={classes.root}>
+        <Button onClick={() => logout()} className={classes.logout}>
+          <Typography variant='button'>LOG OUT</Typography>
+        </Button>
         <Grid container className={classes.notes}>
           <NoteEdit
             open={editOpen}
@@ -94,10 +117,16 @@ export class Notes extends Component {
             submitNote={submitNote}
           />
           <NoteAddButton editOpen={editOpen} openEdit={() => openEdit()} />
-          {this.makeNoteComponents(notes)}
+          {this.makeNoteComponents(notes) || (
+            <Grid className={classes.emptyText} item container xs={12} justify='center'>
+              <Typography  variant='caption'>
+                Add your first note by clicking the green plus :)
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </div>
-    );
+    ) : null;
   }
 }
 
@@ -106,6 +135,7 @@ export default connect(
     notes: state.notes.notes,
     editOpen: state.notes.editOpen,
     selectedIndex: state.notes.selectedIndex,
+    finishedLoading: state.notes.finishedLoading,
   }),
   dispatch => ({
     openEdit: bindActionCreators(openEdit, dispatch),
@@ -115,6 +145,7 @@ export default connect(
     setEditOpen: bindActionCreators(setEditOpen, dispatch),
     deleteNote: bindActionCreators(deleteNote, dispatch),
     submitNote: bindActionCreators(submitNote, dispatch),
+    logout: bindActionCreators(logout, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Notes));

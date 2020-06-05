@@ -8,34 +8,33 @@ const params = {
   },
 };
 
-export const fetchNotes = () =>
-  fetch(`${URL_BASE}notes`, params)
+export const checkAuthenticated = () =>
+  fetch(`${URL_BASE}login`, params)
     .then(res => res.json())
     .catch(err => console.log(err));
 
-export const deleteNote = id =>
-  fetch(`${URL_BASE}notes/${id}`, {
-    ...params,
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  })
-    .then(res => res.json())
-    .catch(err => console.log(err));
-
-export const addNote = (note, date, info) =>
-  fetch(`${URL_BASE}notes`, {
+export const login = (username, password) =>
+  fetch(`${URL_BASE}login`, {
     ...params,
     method: 'POST',
-    body: JSON.stringify({ note, date, info }),
+    body: JSON.stringify({ username, password }),
   })
     .then(res => res.json())
     .catch(err => console.log(err));
 
-export const editNote = (note, date, info, id) =>
-  fetch(`${URL_BASE}notes/${id}`, {
+export const logout = () =>
+  fetch(`${URL_BASE}logout`, {
     ...params,
-    method: 'PUT',
-    body: JSON.stringify({ note, date, info }),
+    method: 'POST',
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err));
+
+export const register = (username, password, passwordRepeat) =>
+  fetch(`${URL_BASE}register`, {
+    ...params,
+    method: 'POST',
+    body: JSON.stringify({ username, password, passwordRepeat }),
   })
     .then(res => res.json())
     .catch(err => console.log(err));

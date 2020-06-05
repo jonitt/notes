@@ -7,10 +7,12 @@ module.exports = {
   devServer: {
     port: 9000,
     contentBase: path.join(__dirname, '/dist/frontend'),
+    historyApiFallback: true,
   },
   output: {
     filename: 'front.js',
     path: path.resolve(__dirname, 'dist/frontend'),
+    publicPath: '/',
   },
   module: {
     rules: [
