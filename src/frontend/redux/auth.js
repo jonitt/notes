@@ -14,7 +14,14 @@ import {
 import * as loginApi from '../api/login';
 import history from '../router/history';
 
-const initialState = { loginSuccess: false, loginError: '', registerError: '' };
+//INITIAL STATE
+
+const initialState = {
+  loginSuccess: false,
+  loginError: '',
+  registerError: '',
+  finishedLoading: false,
+};
 
 //########################################################################
 //############################ REDUCERS ##################################
@@ -40,6 +47,13 @@ const authSlice = createSlice({
     register: (state, action) => ({
       ...state,
     }),
+    checkAuthenticated: state => ({
+      ...state,
+    }),
+    setFinishedLoading: (state, action) => ({
+      ...state,
+      finishedLoading: action.payload,
+    }),
   },
 });
 
@@ -49,6 +63,8 @@ export const {
   setLoginError,
   setRegisterError,
   register,
+  checkAuthenticated,
+  setFinishedLoading,
 } = authSlice.actions;
 
 const authReducer = authSlice.reducer;
@@ -57,6 +73,15 @@ export default authReducer;
 //########################################################################
 //############################# SAGAS ####################################
 //########################################################################
+
+export function* checkAuthenticatedSaga() {
+  const res = yield call(loginApi.checkAuthenticated);
+  console.log('cjecl auht, ', res);
+  //if authenticated, redirect to main content page
+  if (res.redirect) {
+    history.push(res.redirect);
+  } else yield put(setFinishedLoading.type, true);
+}
 
 export function* loginSaga(action) {
   try {
@@ -102,6 +127,7 @@ export function* registerSaga(action) {
 
 export function* watchAuth() {
   yield all([
+    takeLatest(checkAuthenticated.type, checkAuthenticatedSaga),
     takeLatest(login.type, loginSaga),
     takeLatest(register.type, registerSaga),
   ]);

@@ -20,7 +20,7 @@ import {
 const styles = {
   root: {
     width: '100%',
-    position: 'relative'
+    position: 'relative',
   },
   notes: {
     position: 'relative',
@@ -30,7 +30,7 @@ const styles = {
     [theme.breakpoints.down('xs')]: {
       margin: '0 ',
       width: '100%',
-      maxWidth: '1000px'
+      maxWidth: '1000px',
     },
   },
 };
@@ -73,10 +73,11 @@ export class Notes extends Component {
       deleteNote,
       openEdit,
       submitNote,
+      finishedLoading,
     } = this.props;
     const selectedNote = notes[selectedIndex];
-    console.log('cookie',document.cookie);
-    return (
+    console.log('cookie', document.cookie);
+    return finishedLoading ? (
       <div className={classes.root}>
         <Grid container className={classes.notes}>
           <NoteEdit
@@ -98,7 +99,7 @@ export class Notes extends Component {
           {this.makeNoteComponents(notes)}
         </Grid>
       </div>
-    );
+    ) : null;
   }
 }
 
@@ -107,6 +108,7 @@ export default connect(
     notes: state.notes.notes,
     editOpen: state.notes.editOpen,
     selectedIndex: state.notes.selectedIndex,
+    finishedLoading: state.notes.finishedLoading,
   }),
   dispatch => ({
     openEdit: bindActionCreators(openEdit, dispatch),

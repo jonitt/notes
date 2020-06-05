@@ -8,6 +8,11 @@ const params = {
   },
 };
 
+export const checkAuthenticated = () =>
+  fetch(`${URL_BASE}login`, params)
+    .then(res => res.json())
+    .catch(err => console.log(err));
+
 export const login = (username, password) =>
   fetch(`${URL_BASE}login`, {
     ...params,

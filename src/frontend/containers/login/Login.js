@@ -17,7 +17,7 @@ import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
 import Notes from '../notes/Notes';
 import * as loginApi from '../../api/login';
-import { login, register } from '../../redux/auth';
+import { login, register, checkAuthenticated } from '../../redux/auth';
 import { Link, Redirect } from 'react-router-dom';
 
 const styles = {
@@ -44,6 +44,12 @@ export class Login extends Component {
     password: '',
     passwordRepeat: '',
   };
+
+  componentDidMount() {
+    //CHECK USER LOGGED IN OR NOT FROM BACKEND;
+    //IF LOGGED IN REDIRECt TO NOTES; HANDLE IN REDUX
+    this.props.checkAuthenticated();
+  }
 
   handleChangeUsername(e) {
     const username = e.target.value;
@@ -73,9 +79,10 @@ export class Login extends Component {
       loginError,
       registerError,
       register,
+      finishedLoading,
     } = this.props;
     const { username, password, passwordRepeat } = this.state;
-    return (
+    return finishedLoading ? (
       <div className={classes.root}>
         <Grid container justify='center'>
           <Grid item container xs={12} justify='center'>
@@ -140,7 +147,7 @@ export class Login extends Component {
           )}
         </Grid>
       </div>
-    );
+    ) : null;
   }
 }
 
@@ -149,10 +156,12 @@ export default connect(
     loginSuccess: state.auth.loginSuccess,
     loginError: state.auth.loginError,
     registerError: state.auth.registerError,
+    finishedLoading: state.auth.finishedLoading,
   }),
   dispatch => ({
     login: bindActionCreators(login, dispatch),
     register: bindActionCreators(register, dispatch),
+    checkAuthenticated: bindActionCreators(checkAuthenticated, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Login));
