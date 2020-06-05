@@ -1,4 +1,4 @@
-const URL_BASE = 'http://localhost:3000/';
+const URL_BASE = 'https://notes-appi.herokuapp.com/';
 
 const params = {
   mode: 'cors',
