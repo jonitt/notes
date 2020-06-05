@@ -9,9 +9,9 @@
   "scripts": {
     "bfd": "webpack --mode development",
     "sfd": "webpack-dev-server",
-    "start": "supervisor dist/server.js",
+    "start": "node dist/server.js",
     "build": "tsc",
-    "build:dev": "tsc --watch",
+    "build:dev": "supervisor dist/server.js",
     "start:dev": "webpack-dev-server",
     "format": "prettier --write \"**/*.js\"",
     "test": "jest",
