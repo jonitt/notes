@@ -46,7 +46,7 @@ server.use(session({
     saveUninitialized: false,
     store: new redisStore({ client: client }),
     cookie: {
-        secure: false,
+        secure: true,
         httpOnly: true
     }
 }));

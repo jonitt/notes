@@ -40,7 +40,7 @@ server.use(
     saveUninitialized: false,
     store: new redisStore({ client }),
     cookie: {
-      secure: false,
+      secure: true,
       httpOnly: true,
     },
   })
