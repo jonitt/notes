@@ -26,7 +26,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var router = require('./lib/router');
 var authDb = require('./components/auth/model');
 var server = express();
-var client = redis.createClient();
+var client = redis.createClient(process.env.REDIS_URL);
 server.use(cors({
     origin: true,
     credentials: true
@@ -44,8 +44,6 @@ server.use(session({
     resave: true,
     saveUninitialized: false,
     store: new redisStore({
-        host: 'localhost',
-        port: 6379,
         client: client,
         ttl: 260
     }),
