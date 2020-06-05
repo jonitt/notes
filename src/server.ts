@@ -38,7 +38,8 @@ server.use(
     resave: true,
     saveUninitialized: false,
     store: new redisStore({
-      host: 'localhost',
+      host: ' redis://h:pb58512c4432a6e9e9c1007d45e6ac859c184259ed87cceb7ffb42b26d784831c@ec2-18-200-224-51.eu-west-1.compute.amazonaws.com:22209',
+      //'localhost'
       port: 6379,
       client: client,
       ttl: 260,
