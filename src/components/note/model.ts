@@ -1,50 +1,43 @@
-const cred = require('../../lib/credentials/user');
 import { Request, Response, NextFunction } from 'express';
-const Pool = require('pg').Pool;
-const pool = new Pool({
-  user: cred.username,
-  host: 'localhost',
-  database: cred.database,
-  password: cred.password,
-  port: 5432,
-});
+const pool = require('../../lib/pool');
 
-export const getNotes = (request: Request, response: Response) => {
-  pool.query('SELECT * FROM notes ORDER BY id ASC', (error: Error, results: any) => {
-    if (error) {
-      throw error;
-    }
-    //console.log(results);
-    //return results;
-    response.status(200).json(results.rows);
-  });
-};
-
-export const addNote = (request: Request, response: Response) => {
-  const { note, date, info } = request.body;
-  console.log(note, date, info)
-  console.log('putting new noteeeee');
+export const getNotes = (req: Request, response: Response) => {
+  const userId = req.session.userId;
   pool.query(
-    `INSERT INTO notes (note, date, info) VALUES ($1, $2, $3)`,
-    [note, date, info],
+    'SELECT * FROM notes WHERE user_id = $1 ORDER BY id ASC',
+    [userId],
     (error: Error, results: any) => {
       if (error) {
         throw error;
       }
-      //console.log(results);
       //return results;
-      response.status(200).json(true  );
+      response.status(200).json({ notes: results.rows });
     }
   );
 };
 
-export const updateNote = (request: Request, response: Response) => {
-  const id = parseInt(request.params.id);
-  const { note, date, info } = request.body;
-
+export const addNote = (req: Request, response: Response) => {
+  const { note, date, info } = req.body;
+  const userId = req.session.userId;
   pool.query(
-    'UPDATE notes SET note = $1, date = $2, info = $3 WHERE id = $4',
-    [note, date, info, id],
+    `INSERT INTO notes (note, date, info, user_id) VALUES ($1, $2, $3, $4)`,
+    [note, date, info, userId],
+    (error: Error, results: any) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).json(true);
+    }
+  );
+};
+
+export const updateNote = (req: Request, response: Response) => {
+  const id = parseInt(req.params.id); //note's id
+  const { note, date, info } = req.body;
+  const userId = req.session.userId;
+  pool.query(
+    'UPDATE notes SET note = $1, date = $2, info = $3, user_id = $4 WHERE id = $5',
+    [note, date, info, userId, id],
     (error: Error, results: any) => {
       if (error) {
         throw error;
@@ -54,9 +47,8 @@ export const updateNote = (request: Request, response: Response) => {
   );
 };
 
-export const deleteNote = (request: Request, response: Response) => {
-  const id = parseInt(request.params.id);
-
+export const deleteNote = (req: Request, response: Response) => {
+  const id = parseInt(req.params.id);
   pool.query(
     'DELETE FROM notes WHERE id = $1',
     [id],
@@ -68,62 +60,3 @@ export const deleteNote = (request: Request, response: Response) => {
     }
   );
 };
-
-/*
-const getUserById = (request, response) => {
-  const id = parseInt(request.params.id)
-
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
-}
-
-const createUser = (request, response) => {
-  const { name, email } = request.body
-
-  pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(201).send(`User added with ID: ${result.insertId}`)
-  })
-}
-
-const updateUser = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { name, email } = request.body
-
-  pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(`User modified with ID: ${id}`)
-    }
-  )
-}
-
-const deleteUser = (request, response) => {
-  const id = parseInt(request.params.id)
-
-  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).send(`User deleted with ID: ${id}`)
-  })
-}
-
-module.exports = {
-  getUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-}
-*/

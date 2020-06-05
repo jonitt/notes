@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node", "express"],
+    "types": ["node", "express", "express-session"],
     "typeRoots": ["../node_modules/@types"],
     "module": "commonjs",
     "noImplicitAny": true,

@@ -37,7 +37,6 @@ const styles = {
     minWidth: '270px',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
-      //marginRight: 'auto'
     },
   },
   mouseOn: {
@@ -61,18 +60,15 @@ const styles = {
       marginLeft: '10px',
       maxWidth: '1000px',
       boxSizing: 'border-box',
-      //marginRight: 'auto'
     },
   },
   headingField: {
     boxSizing: 'border-box',
     padding: '0 20px 0 15px',
     width: '100%',
-    //display: 'inline-block',
   },
   headingText: {
     fontSize: '2.2rem',
-    //lineHeight: '50px'
   },
   infoField: {
     boxSizing: 'border-box',
