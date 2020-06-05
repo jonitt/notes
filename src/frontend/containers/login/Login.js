@@ -31,7 +31,7 @@ const styles = {
     color: 'red',
   },
   field: {
-    marginTop: '15px',
+    marginTop: '18px',
   },
   button: {
     marginTop: '27px',

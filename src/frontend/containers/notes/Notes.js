@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Note from './Note';
 import NoteEdit from './NoteEdit';
@@ -16,6 +16,7 @@ import {
   deleteNote,
   submitNote,
 } from '../../redux/notes';
+import {logout} from '../../redux/auth';
 
 const styles = {
   root: {
@@ -31,6 +32,15 @@ const styles = {
       margin: '0 ',
       width: '100%',
       maxWidth: '1000px',
+    },
+  },
+  logout: {
+    position: 'absolute',
+    left: 0,
+    top: -55,
+    left: -5,
+    [theme.breakpoints.down('xs')]: {
+      top: -5,
     },
   },
 };
@@ -73,12 +83,15 @@ export class Notes extends Component {
       deleteNote,
       openEdit,
       submitNote,
-      finishedLoading,
+      finishedLoading,logout
     } = this.props;
     const selectedNote = notes[selectedIndex];
     console.log('cookie', document.cookie);
     return finishedLoading ? (
       <div className={classes.root}>
+        <Button onClick={() => logout()} className={classes.logout}>
+          <Typography variant='button'>LOG OUT</Typography>
+        </Button>
         <Grid container className={classes.notes}>
           <NoteEdit
             open={editOpen}
@@ -118,6 +131,7 @@ export default connect(
     setEditOpen: bindActionCreators(setEditOpen, dispatch),
     deleteNote: bindActionCreators(deleteNote, dispatch),
     submitNote: bindActionCreators(submitNote, dispatch),
+    logout: bindActionCreators(logout, dispatch),
     dispatch,
   })
 )(withStyles(styles)(Notes));

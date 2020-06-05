@@ -5,9 +5,10 @@ import * as db from './model';
 import { NetConnectOpts } from 'net';
 
 function isProtected(req: Request, res: Response, next: NextFunction) {
-  console.log('user idddddd in notea', req.session);
+  console.log('user idddddd in notea', req.session.userId);
   if (!req.session.userId) {
-    return next(res.status(301).json({ redirect: '/login' }));
+    console.log('WHY DOES TGUS GET CUT?')
+    return next(res.status(401).json({ redirect: '/login'} ));
   } else return next();
 }
 /*

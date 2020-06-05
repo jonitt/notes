@@ -1,5 +1,6 @@
 const express = require('express');
 import { Request, Response, NextFunction } from 'express';
+//import {Request} from 'passport';
 const router = require('../../lib/router');
 const db = require('./model');
 
@@ -15,7 +16,7 @@ router.post('/login', function(req: Request, res: Response) {
   db.validateLogin(req, res);
 });
 */
-router.post('/register', isSignedIn, function(req: Request, res: Response) {
+router.post('/register', function(req: Request, res: Response) {
   db.validateRegister(req, res);
 });
 
@@ -25,6 +26,12 @@ router.get('/login', function(req: Request, res: Response) {
   if (req.session.userId) {
     res.status(301).json({ redirect: '/notes' });
   } else res.status(200).json('Not logged in');
+});
+
+router.post('/logout', function(req: Request, res: Response) {
+  req.session.destroy(err => console.log(err));
+  req.logout();
+  res.status(301).json({ redirect: '/login' });
 });
 
 module.exports = router;

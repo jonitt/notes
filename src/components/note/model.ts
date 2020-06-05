@@ -9,7 +9,6 @@ export const getNotes = (request: Request, response: Response) => {
       if (error) {
         throw error;
       }
-      console.log(results);
       //return results;
       response.status(200).json({ notes: results.rows });
     }

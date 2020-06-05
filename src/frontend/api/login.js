@@ -22,6 +22,14 @@ export const login = (username, password) =>
     .then(res => res.json())
     .catch(err => console.log(err));
 
+export const logout = () =>
+  fetch(`${URL_BASE}logout`, {
+    ...params,
+    method: 'POST',
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err));
+
 export const register = (username, password, passwordRepeat) =>
   fetch(`${URL_BASE}register`, {
     ...params,

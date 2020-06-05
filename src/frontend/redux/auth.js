@@ -54,6 +54,9 @@ const authSlice = createSlice({
       ...state,
       finishedLoading: action.payload,
     }),
+    logout: state => ({
+      ...state,
+    }),
   },
 });
 
@@ -65,6 +68,7 @@ export const {
   register,
   checkAuthenticated,
   setFinishedLoading,
+  logout,
 } = authSlice.actions;
 
 const authReducer = authSlice.reducer;
@@ -80,7 +84,7 @@ export function* checkAuthenticatedSaga() {
   //if authenticated, redirect to main content page
   if (res.redirect) {
     history.push(res.redirect);
-  } else yield put(setFinishedLoading.type, true);
+  } else yield put({type: setFinishedLoading.type, payload: true});
 }
 
 export function* loginSaga(action) {
@@ -93,6 +97,18 @@ export function* loginSaga(action) {
       //yield put({ type: setLoginSuccess.type, payload: true });
     } else {
       yield put({ type: setLoginError.type, payload: res.message });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* logoutSaga() {
+  try {
+    const res = yield call(loginApi.logout);
+    //redirect after log out
+    if (res.redirect) {
+      history.push(res.redirect);
     }
   } catch (err) {
     console.log(err);
@@ -130,6 +146,7 @@ export function* watchAuth() {
     takeLatest(checkAuthenticated.type, checkAuthenticatedSaga),
     takeLatest(login.type, loginSaga),
     takeLatest(register.type, registerSaga),
+    takeLatest(logout.type, logoutSaga),
   ]);
 }
 
