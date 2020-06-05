@@ -50,41 +50,32 @@ export const validateRegister = (req: Request, res: Response) => {
   );
 };
 
-export const validateLogin = (req: Request, res: Response) => {
-  const { username, password } = req.body;
-
-  if (username && password) {
-    pool.query(
-      'SELECT * FROM users WHERE username = $1',
-      [username],
-      (error: Error, results: any) => {
-        if (error) {
-          throw error;
-        }
-        if (results.rows.length > 0) {
-          const user = results.rows[0];
-          bcrypt.compare(password, user.password, (err: Error, valid: any) => {
-            if (valid) {
-              req.session.loggedin = true;
-              req.session.userId = user.id;
-              res.status(200).json({ error: false, message: 'Login success' });
-            } else {
-              res.status(401).json({ error: true, message: 'Wrong password' });
-            }
-            //res.status(200).json({ success: true });
-          });
-        } else {
-          res.status(401).json({ error: true, message: 'Incorrect username' });
-        }
-
-        //return results;
+export const validateLogin = (
+  username: String,
+  password: String,
+  done: Function
+) => {
+  pool.query(
+    'SELECT * FROM users WHERE username = $1',
+    [username],
+    (error: Error, results: any) => {
+      if (error) {
+        throw error;
       }
-    );
-  } else {
-    res
-      .status(401)
-      .json({ error: true, message: 'Please enter password and username' });
-  }
+      if (results.rows && results.rows.length > 0) {
+        const user = results.rows[0];
+        bcrypt.compare(password, user.password, (err: Error, valid: any) => {
+          if (valid) {
+            done(null, user);
+          } else {
+            done(null, false, { message: 'Wrong password' });
+          }
+        });
+      } else {
+        done(null, false, { message: 'Incorrect username' });
+      }
+    }
+  );
 };
 
 module.exports = { validateLogin, validateRegister };

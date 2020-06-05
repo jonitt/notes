@@ -28,8 +28,8 @@ router.get('/login', function(req: Request, res: Response) {
   } else res.status(200).json('Not logged in');
 });
 
-router.post('/logout', function(req: Request, res: Response) {
-  req.session.destroy(err => console.log(err));
+router.post('/logout', function(req: any, res: Response) {
+  req.session.destroy((err: any) => console.log(err));
   req.logout();
   res.status(301).json({ redirect: '/login' });
 });

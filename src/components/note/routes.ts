@@ -7,22 +7,11 @@ import { NetConnectOpts } from 'net';
 function isProtected(req: Request, res: Response, next: NextFunction) {
   console.log('user idddddd in notea', req.session.userId);
   if (!req.session.userId) {
-    console.log('WHY DOES TGUS GET CUT?')
-    return next(res.status(401).json({ redirect: '/login'} ));
+    console.log('WHY DOES TGUS GET CUT?');
+    return next(res.status(401).json({ redirect: '/login' }));
   } else return next();
 }
-/*
-// Home page that displays notes. Redirect to login if not signed in
-router.get('/', function(req: Request, res: Response) {
-  console.log(req.session.loggedin);
-  if (req.session.loggedin) {
-    res.status(301).json({ redirectTo: '/notes' });
-  } else {
-    res.status(301).json({ redirectTo: '/login' });
-  }
-  //res.send('Homepage, where notes are displayed');
-});*/
-// Home page that displays notes. Redirect to login if not signed in
+
 router.get('/notes', isProtected, function(req: Request, res: Response) {
   db.getNotes(req, res);
 });

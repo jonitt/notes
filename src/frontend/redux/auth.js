@@ -13,6 +13,7 @@ import {
 } from 'redux-saga/effects';
 import * as loginApi from '../api/login';
 import history from '../router/history';
+import { setFinishedLoading as notesSetFinishedLoading } from './notes';
 
 //INITIAL STATE
 
@@ -84,7 +85,7 @@ export function* checkAuthenticatedSaga() {
   //if authenticated, redirect to main content page
   if (res.redirect) {
     history.push(res.redirect);
-  } else yield put({type: setFinishedLoading.type, payload: true});
+  } else yield put({ type: setFinishedLoading.type, payload: true });
 }
 
 export function* loginSaga(action) {
@@ -108,6 +109,7 @@ export function* logoutSaga() {
     const res = yield call(loginApi.logout);
     //redirect after log out
     if (res.redirect) {
+      yield put({ type: notesSetFinishedLoading.type, payload: false });
       history.push(res.redirect);
     }
   } catch (err) {

@@ -16,7 +16,7 @@ import {
   deleteNote,
   submitNote,
 } from '../../redux/notes';
-import {logout} from '../../redux/auth';
+import { logout } from '../../redux/auth';
 
 const styles = {
   root: {
@@ -39,10 +39,17 @@ const styles = {
     left: 0,
     top: -55,
     left: -5,
+    zIndex: 10,
     [theme.breakpoints.down('xs')]: {
       top: -5,
     },
   },
+  emptyText: {
+    [theme.breakpoints.down('xs')]: {
+      padding: 5,
+      paddingTop: '50px',
+    },
+  }
 };
 
 export class Notes extends Component {
@@ -70,7 +77,7 @@ export class Notes extends Component {
         />
       );
     }
-    return noteComps;
+    return noteComps.length > 0 ? noteComps : null;
   };
 
   render() {
@@ -83,7 +90,8 @@ export class Notes extends Component {
       deleteNote,
       openEdit,
       submitNote,
-      finishedLoading,logout
+      finishedLoading,
+      logout,
     } = this.props;
     const selectedNote = notes[selectedIndex];
     console.log('cookie', document.cookie);
@@ -109,7 +117,13 @@ export class Notes extends Component {
             submitNote={submitNote}
           />
           <NoteAddButton editOpen={editOpen} openEdit={() => openEdit()} />
-          {this.makeNoteComponents(notes)}
+          {this.makeNoteComponents(notes) || (
+            <Grid className={classes.emptyText} item container xs={12} justify='center'>
+              <Typography  variant='caption'>
+                Add your first note by clicking the green plus :)
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </div>
     ) : null;

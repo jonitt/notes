@@ -1,8 +1,7 @@
-import { fork, call, put, spawn, take, select, all } from 'redux-saga/effects';
-import { watchApp } from './app';
+import { all } from 'redux-saga/effects';
 import { watchNotes } from './notes';
 import { watchAuth } from './auth';
 
 export default function* rootSaga() {
-  yield all([watchApp(), watchNotes(), watchAuth()]);
+  yield all([watchNotes(), watchAuth()]);
 }

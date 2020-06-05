@@ -3,22 +3,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   Grid,
-  Card,
-  CardHeader,
-  CardActions,
-  CardActionArea,
-  CardContent,
   Typography,
   TextField,
   Button,
 } from '@material-ui/core';
 import { bindActionCreators } from 'redux';
-import { getName, setName } from '../../redux/app';
 import { withStyles } from '@material-ui/core/styles';
-import Notes from '../notes/Notes';
-import * as loginApi from '../../api/login';
 import { login, register, checkAuthenticated } from '../../redux/auth';
 import { Link, Redirect } from 'react-router-dom';
+import { theme } from '../../theme';
 
 const styles = {
   root: {
@@ -29,6 +22,11 @@ const styles = {
     margin: 'auto',
     paddingTop: '10px',
     color: 'red',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '10px',
+      width: '90%',
+      maxWidth: '390px'
+    },
   },
   field: {
     marginTop: '18px',
