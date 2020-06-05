@@ -143,7 +143,6 @@ export function* closeEditSaga() {
 export function* getNotesSaga() {
   try {
     const res = yield call(notesApi.fetchNotes);
-    console.log('notes are', res);
     if (res.redirect) {
       history.push(res.redirect);
     } else {

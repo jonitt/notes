@@ -94,7 +94,6 @@ export class Notes extends Component {
       logout,
     } = this.props;
     const selectedNote = notes[selectedIndex];
-    console.log('cookie', document.cookie);
     return finishedLoading ? (
       <div className={classes.root}>
         <Button onClick={() => logout()} className={classes.logout}>

@@ -7,7 +7,6 @@ import { NetConnectOpts } from 'net';
 function isProtected(req: Request, res: Response, next: NextFunction) {
   console.log('user idddddd in notea', req.session.userId);
   if (!req.session.userId) {
-    console.log('WHY DOES TGUS GET CUT?');
     return next(res.status(401).json({ redirect: '/login' }));
   } else return next();
 }
