@@ -1,4 +1,4 @@
-const URL_BASE = 'http://localhost:5000/'//'https://notes-appi.herokuapp.com/';
+import BASE_URL from '../utils/baseurl';
 
 const params = {
   mode: 'cors',
@@ -9,12 +9,12 @@ const params = {
 };
 
 export const fetchNotes = () =>
-  fetch(`${URL_BASE}notes`, params)
+  fetch(`${BASE_URL}notes`, params)
     .then(res => res.json())
     .catch(err => console.log(err));
 
 export const deleteNote = id =>
-  fetch(`${URL_BASE}notes/${id}`, {
+  fetch(`${BASE_URL}notes/${id}`, {
     ...params,
     method: 'DELETE',
     body: JSON.stringify({ id }),
@@ -23,7 +23,7 @@ export const deleteNote = id =>
     .catch(err => console.log(err));
 
 export const addNote = (note, date, info) =>
-  fetch(`${URL_BASE}notes`, {
+  fetch(`${BASE_URL}notes`, {
     ...params,
     method: 'POST',
     body: JSON.stringify({ note, date, info }),
@@ -32,7 +32,7 @@ export const addNote = (note, date, info) =>
     .catch(err => console.log(err));
 
 export const editNote = (note, date, info, id) =>
-  fetch(`${URL_BASE}notes/${id}`, {
+  fetch(`${BASE_URL}notes/${id}`, {
     ...params,
     method: 'PUT',
     body: JSON.stringify({ note, date, info }),
