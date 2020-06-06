@@ -7,7 +7,7 @@ router.post('/register', function (req, res) {
     console.log('called register');
     db.validateRegister(req, res);
 });
-router.get('/login', function (req, res) {
+router.get('/authenticated', function (req, res) {
     if (req.session.userId) {
         res.status(301).json({ redirect: '/notes' });
     }
@@ -20,6 +20,9 @@ router.post('/logout', function (req, res) {
     res.status(301).json({ redirect: '/login' });
 });
 router.get('/register', function (req, res) {
+    res.redirect('/');
+});
+router.get('/login', function (req, res) {
     res.redirect('/');
 });
 module.exports = router;

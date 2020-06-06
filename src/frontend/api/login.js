@@ -9,7 +9,7 @@ const params = {
 };
 
 export const checkAuthenticated = () =>
-  fetch(`${BASE_URL}login`, params)
+  fetch(`${BASE_URL}authenticated`, params)
     .then(res => res.json())
     .catch(err => console.log(err));
 

@@ -10,7 +10,7 @@ router.post('/register', function(req: Request, res: Response) {
 });
 
 //used for checkin if user authenticated
-router.get('/login', function(req: Request, res: Response) {
+router.get('/authenticated', function(req: Request, res: Response) {
   if (req.session.userId) {
     res.status(301).json({ redirect: '/notes' });
   } else res.status(200).json('Not logged in');
@@ -23,6 +23,10 @@ router.post('/logout', function(req: any, res: Response) {
 });
 
 router.get('/register', function(req: Request, res: Response) {
+  res.redirect('/');
+});
+
+router.get('/login', function(req: Request, res: Response) {
   res.redirect('/');
 });
 
