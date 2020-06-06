@@ -5,6 +5,7 @@ const router = require('../../lib/router');
 const db = require('./model');
 
 router.post('/register', function(req: Request, res: Response) {
+  console.log('called register');
   db.validateRegister(req, res);
 });
 

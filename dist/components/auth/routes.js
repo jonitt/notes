@@ -4,6 +4,7 @@ var express = require('express');
 var router = require('../../lib/router');
 var db = require('./model');
 router.post('/register', function (req, res) {
+    console.log('called register');
     db.validateRegister(req, res);
 });
 router.get('/login', function (req, res) {

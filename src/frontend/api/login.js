@@ -1,4 +1,4 @@
-const URL_BASE = 'https://notes-appi.herokuapp.com/';
+import BASE_URL from '../utils/baseurl';
 
 const params = {
   mode: 'cors',
@@ -9,12 +9,12 @@ const params = {
 };
 
 export const checkAuthenticated = () =>
-  fetch(`${URL_BASE}login`, params)
+  fetch(`${BASE_URL}login`, params)
     .then(res => res.json())
     .catch(err => console.log(err));
 
 export const login = (username, password) =>
-  fetch(`${URL_BASE}login`, {
+  fetch(`${BASE_URL}login`, {
     ...params,
     method: 'POST',
     body: JSON.stringify({ username, password }),
@@ -23,7 +23,7 @@ export const login = (username, password) =>
     .catch(err => console.log(err));
 
 export const logout = () =>
-  fetch(`${URL_BASE}logout`, {
+  fetch(`${BASE_URL}logout`, {
     ...params,
     method: 'POST',
   })
@@ -31,7 +31,7 @@ export const logout = () =>
     .catch(err => console.log(err));
 
 export const register = (username, password, passwordRepeat) =>
-  fetch(`${URL_BASE}register`, {
+  fetch(`${BASE_URL}register`, {
     ...params,
     method: 'POST',
     body: JSON.stringify({ username, password, passwordRepeat }),

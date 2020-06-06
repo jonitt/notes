@@ -11,8 +11,8 @@
     "sfd": "webpack-dev-server",
     "start": "node dist/server.js",
     "build": "tsc",
-    "build:dev": "supervisor dist/server.js",
-    "start:dev": "webpack-dev-server",
+    "build:dev": "tsc --watch",
+    "start:dev": "supervisor dist/server.js",
     "format": "prettier --write \"**/*.js\"",
     "test": "jest",
     "tsc": "tsc --watch"

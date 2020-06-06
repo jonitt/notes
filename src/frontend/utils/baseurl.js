@@ -1,0 +1,1 @@
+export default BASE_URL = 'https://notes-appi.herokuapp.com/'//http://localhost:5000/
