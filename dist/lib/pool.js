@@ -1,10 +1,9 @@
-var Pool = require('pg').Pool;
+var _a = require('pg'), Pool = _a.Pool, Client = _a.Client;
 var cred = require('./credentials/user');
-module.exports = new Pool({
-    user: cred.username,
-    host: process.env.DATABASE_URL,
-    database: cred.database,
-    password: cred.password,
-    port: 5432
+module.exports = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 //# sourceMappingURL=pool.js.map
