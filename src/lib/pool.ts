@@ -1,6 +1,6 @@
-const { Pool } = require('pg');
+const { Pool, Client } = require('pg');
 const cred = require('./credentials/user');
-module.exports = new Pool({
+module.exports = new Client({
   user: cred.username,
   host: process.env.DATABASE_URL,
   database: cred.database,
