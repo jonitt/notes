@@ -20,7 +20,9 @@ exports.validateRegister = function (req, res) {
     if (password !== passwordRepeat) {
         res.status(400).json({ error: true, message: 'Passwords do not match' });
     }
+    console.log('jsut before query register');
     pool.query('SELECT * FROM users WHERE username = $1', [username], function (error, results) {
+        console.log('after initiated query on register!');
         if (error) {
             throw error;
         }
