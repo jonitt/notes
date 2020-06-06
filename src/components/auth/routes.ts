@@ -22,4 +22,8 @@ router.post('/logout', function(req: any, res: Response) {
   res.status(301).json({ redirect: '/login' });
 });
 
+router.get('/register', function(req: Request, res: Response) {
+  res.redirect('/');
+});
+
 module.exports = router;

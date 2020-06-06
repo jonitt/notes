@@ -4,7 +4,6 @@ var express = require('express');
 var router = require('../../lib/router');
 var db = require("./model");
 function isProtected(req, res, next) {
-    console.log('user idddddd in notea', req.session.userId);
     if (!req.session.userId) {
         return next(res.status(401).json({ redirect: '/login' }));
     }
