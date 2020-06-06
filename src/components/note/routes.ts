@@ -10,11 +10,7 @@ function isProtected(req: Request, res: Response, next: NextFunction) {
   } else return next();
 }
 
-router.get('/notes', function(req: Request, res: Response) {
-  res.redirect('/');
-});
-
-router.get('/notesall', isProtected, function(req: Request, res: Response) {
+router.get('/notes', isProtected, function(req: Request, res: Response) {
   db.getNotes(req, res);
 });
 

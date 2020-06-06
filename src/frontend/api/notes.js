@@ -9,7 +9,7 @@ const params = {
 };
 
 export const fetchNotes = () =>
-  fetch(`${BASE_URL}notesall`, params)
+  fetch(`${BASE_URL}notes`, params)
     .then(res => res.json())
     .catch(err => console.log(err));
 
