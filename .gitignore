@@ -41,7 +41,7 @@ build/Release
 node_modules/
 jspm_packages/
 
-#credentials/
+credentials/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -71,7 +71,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variables file
-#.env
+.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -84,7 +84,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-# asd dist
+dist
 
 # Gatsby files
 .cache/
