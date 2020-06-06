@@ -5,7 +5,7 @@ import * as db from './model';
 import { NetConnectOpts } from 'net';
 
 function isProtected(req: Request, res: Response, next: NextFunction) {
-  console.log('user idddddd in notea', req.session.userId);
+  console.log('user idddddd in notea', req.session);
   if (!req.session.userId) {
     return next(res.status(401).json({ redirect: '/login' }));
   } else return next();

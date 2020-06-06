@@ -16,8 +16,6 @@ const authDb = require('./components/auth/model');
 
 const server = express();
 const client = redis.createClient(process.env.REDIS_URL);
-console.log(process.env.REDIS_URL, ' s what');
-console.log(process.env.DATABASE_URL);
 server.use(
   cors({
     origin: true, ///localhost:9000\/.*$/,
