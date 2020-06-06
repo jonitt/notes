@@ -11,6 +11,9 @@ function isProtected(req, res, next) {
         return next();
 }
 router.get('/notes', isProtected, function (req, res) {
+    res.redirect('/');
+});
+router.get('/notesall', isProtected, function (req, res) {
     db.getNotes(req, res);
 });
 router["delete"]('/notes/:id(\\d+)', isProtected, function (req, res) {
