@@ -1,33 +1,64 @@
-const express = require('express');
-import { Request, Response, NextFunction } from 'express';
-//import {Request} from 'passport';
-const router = require('../../lib/router');
-const db = require('./model');
+import { NextFunction, Request, Response, Router } from 'express'
+const passport = require('passport')
+const router = require('../router')
+const db = require('./model')
 
-router.post('/register', function(req: Request, res: Response) {
-  console.log('called register');
-  db.validateRegister(req, res);
-});
-
-//used for checkin if user authenticated
-router.get('/authenticated', function(req: Request, res: Response) {
-  if (req.session.userId) {
-    res.status(301).json({ redirect: '/notes' });
-  } else res.status(200).json('Not logged in');
-});
-
-router.post('/logout', function(req: any, res: Response) {
-  req.session.destroy((err: any) => console.log(err));
-  req.logout();
-  res.status(301).json({ redirect: '/login' });
-});
 
 router.get('/register', function(req: Request, res: Response) {
-  res.redirect('/');
-});
+  if (req.session.userId) {
+    res.redirect('/notes')
+  }
+})
 
 router.get('/login', function(req: Request, res: Response) {
-  res.redirect('/');
-});
+  if (req.session.userId) {
+    res.redirect('/notes')
+  }
+})
 
-module.exports = router;
+router.get('/api/v1/register', function(req: Request, res: Response) {
+  if (req.session.userId) {
+    res.redirect('/notes')
+  } else {
+    res.redirect('/login')
+  }
+})
+
+router.post('/api/v1/register', async function(req: Request, res: Response) {
+  await db.validateRegister(req, res)
+})
+
+router.get('/api/v1/authenticated', function(req: Request, res: Response) {
+  if (req.session.userId) {
+    res.status(301).json({ redirect: '/notes' })
+  } else res.status(200).json('Not logged in')
+})
+
+router.post('/api/v1/logout', function(req: any, res: Response) {
+  req.session.destroy((err: any) => console.log(err))
+  req.logout()
+  res.status(301).json({ redirect: '/login' })
+})
+
+router.get('/login', function(req: Request, res: Response) {
+  res.redirect('/')
+})
+
+router.post('/login', function(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  passport.authenticate('local', function(e: Error, user: any, info: Object) {
+    if (e) {
+      console.log(e)
+    }
+    if (!user) {
+      return res.status(401).json({ error: true, ...info })
+    }
+    req.session.userId = user.id
+    return res.redirect('/notes')
+  })(req, res, next)
+})
+
+module.exports = router

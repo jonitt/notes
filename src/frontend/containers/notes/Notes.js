@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Grid, Button, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import Note from './Note';
-import NoteEdit from './NoteEdit';
-import NoteAddButton from './NoteAddButton';
-import { theme } from '../../theme';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Grid, Button, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import Note from './Note'
+import NoteEdit from './NoteEdit'
+import NoteAddButton from './NoteAddButton'
+import { theme } from '../../theme'
 import {
   getNotes,
   setEditOpen,
@@ -15,8 +15,8 @@ import {
   closeEdit,
   deleteNote,
   submitNote,
-} from '../../redux/notes';
-import { logout } from '../../redux/auth';
+} from '../../redux/notes'
+import { logout } from '../../redux/auth'
 
 const styles = {
   root: {
@@ -49,22 +49,22 @@ const styles = {
       padding: 5,
       paddingTop: '50px',
     },
-  }
-};
+  },
+}
 
 export class Notes extends Component {
-  state = {};
+  state = {}
 
   componentDidMount() {
-    const { getNotes, dispatch } = this.props;
-    dispatch(getNotes());
+    const { getNotes, dispatch } = this.props
+    dispatch(getNotes())
   }
 
   makeNoteComponents = notes => {
-    const { openEdit, editOpen, selectedIndex } = this.props;
-    let noteComps = [];
+    const { openEdit, editOpen, selectedIndex } = this.props
+    let noteComps = []
     for (let i = notes.length - 1; i >= 0; i--) {
-      let note = notes[i];
+      let note = notes[i]
       noteComps.push(
         <Note
           editOpen={editOpen}
@@ -75,10 +75,10 @@ export class Notes extends Component {
           index={i}
           openEdit={openEdit}
         />
-      );
+      )
     }
-    return noteComps.length > 0 ? noteComps : null;
-  };
+    return noteComps.length > 0 ? noteComps : null
+  }
 
   render() {
     const {
@@ -92,8 +92,8 @@ export class Notes extends Component {
       submitNote,
       finishedLoading,
       logout,
-    } = this.props;
-    const selectedNote = notes[selectedIndex];
+    } = this.props
+    const selectedNote = notes[selectedIndex]
     return finishedLoading ? (
       <div className={classes.root}>
         <Button onClick={() => logout()} className={classes.logout}>
@@ -117,15 +117,21 @@ export class Notes extends Component {
           />
           <NoteAddButton editOpen={editOpen} openEdit={() => openEdit()} />
           {this.makeNoteComponents(notes) || (
-            <Grid className={classes.emptyText} item container xs={12} justify='center'>
-              <Typography  variant='caption'>
+            <Grid
+              className={classes.emptyText}
+              item
+              container
+              xs={12}
+              justify='center'
+            >
+              <Typography variant='caption'>
                 Add your first note by clicking the green plus :)
               </Typography>
             </Grid>
           )}
         </Grid>
       </div>
-    ) : null;
+    ) : null
   }
 }
 
@@ -147,4 +153,4 @@ export default connect(
     logout: bindActionCreators(logout, dispatch),
     dispatch,
   })
-)(withStyles(styles)(Notes));
+)(withStyles(styles)(Notes))

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Grid,
   Card,
@@ -7,10 +7,10 @@ import {
   CardActionArea,
   CardContent,
   Typography,
-} from '@material-ui/core';
+} from '@material-ui/core'
 //import styles from './Note.css';
-import { withStyles } from '@material-ui/core/styles';
-import { theme } from '../../theme';
+import { withStyles } from '@material-ui/core/styles'
+import { theme } from '../../theme'
 
 const styles = {
   card: {
@@ -28,7 +28,7 @@ const styles = {
       width: '70%',
       height: '220px',
       marginLeft: 'auto',
-      marginRight: 'auto'
+      marginRight: 'auto',
     },
   },
   content: {
@@ -44,7 +44,7 @@ const styles = {
     right: 10,
     fontSize: '12px',
     [theme.breakpoints.down('xs')]: {
-      top: 198
+      top: 198,
     },
   },
   info: {
@@ -52,22 +52,22 @@ const styles = {
     marginLeft: '18px',
   },
   header: {},
-};
+}
 
 /*
   IN NOTES NEWEST IS LAST, SO ADDING NEW ONES IS EZ IN FRONTEND
 */
 
 export class Note extends Component {
-  state = {};
+  state = {}
 
   parseDate = d => {
-    const date = new Date(d);
-    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-  };
+    const date = new Date(d)
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
+  }
 
   render() {
-    const { classes, note, date, info, openEdit, index, editOpen } = this.props;
+    const { classes, note, date, info, openEdit, index, editOpen } = this.props
     return (
       <Grid item xs={12} sm={6}>
         <Card className={classes.card}>
@@ -86,8 +86,8 @@ export class Note extends Component {
           </CardActionArea>
         </Card>
       </Grid>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(Note);
+export default withStyles(styles)(Note)

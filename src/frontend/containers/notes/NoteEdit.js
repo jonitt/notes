@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Grid,
   Card,
@@ -11,22 +11,22 @@ import {
   TextField,
   IconButton,
   ClickAwayListener,
-} from '@material-ui/core';
+} from '@material-ui/core'
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
   DatePicker,
-} from '@material-ui/pickers';
+} from '@material-ui/pickers'
 //import styles from './Note.css';
-import { withStyles } from '@material-ui/core/styles';
-import formatISO from 'date-fns/formatISO';
-import { theme } from '../../theme';
+import { withStyles } from '@material-ui/core/styles'
+import formatISO from 'date-fns/formatISO'
+import { theme } from '../../theme'
 
 const styles = {
   root: {
     width: '100%',
-    position:'relative'
+    position: 'relative',
   },
   gridContainer: {
     position: 'fixed',
@@ -85,7 +85,7 @@ const styles = {
     height: '215px',
     zIndex: 11,
     [theme.breakpoints.down('xs')]: {
-      right: '4%'
+      right: '4%',
     },
   },
   buttonDisabled: {
@@ -113,7 +113,7 @@ const styles = {
     right: 5,
     width: '100px',
   },
-};
+}
 
 export class NoteEdit extends Component {
   state = {
@@ -122,10 +122,10 @@ export class NoteEdit extends Component {
     info: '',
     date: formatISO(new Date()),
     noteError: false,
-  };
+  }
 
   componentDidUpdate(prevProps, prevState) {
-    const { date, note, id, info } = this.props;
+    const { date, note, id, info } = this.props
     if (
       prevProps.date !== date ||
       prevProps.note !== note ||
@@ -135,40 +135,40 @@ export class NoteEdit extends Component {
         note: note,
         info: info,
         date: date || formatISO(new Date()),
-      });
+      })
     }
   }
 
   validateSubmit = () => {
-    const { submitNote, id } = this.props;
-    const { note, date, info } = this.state;
+    const { submitNote, id } = this.props
+    const { note, date, info } = this.state
     if (!note) {
       this.setState({
         noteError: true,
-      });
+      })
     } else {
-      submitNote({ note, date, info, id });
+      submitNote({ note, date, info, id })
     }
-  };
+  }
 
   changeNoteValue(e) {
-    this.setState({ note: e.target.value, noteError: false });
+    this.setState({ note: e.target.value, noteError: false })
   }
 
   handleThrowAway() {
-    const { closeEdit, deleteNote, isNewNote } = this.props;
-    this.setState({ noteError: false });
-    isNewNote ? closeEdit() : deleteNote();
+    const { closeEdit, deleteNote, isNewNote } = this.props
+    this.setState({ noteError: false })
+    isNewNote ? closeEdit() : deleteNote()
   }
 
   handleClose() {
-    const { closeEdit } = this.props;
-    closeEdit();
-    this.setState({ noteError: false });
+    const { closeEdit } = this.props
+    closeEdit()
+    this.setState({ noteError: false })
   }
 
   render() {
-    const { mouseOn, date, noteError } = this.state;
+    const { mouseOn, date, noteError } = this.state
     const {
       classes,
       open,
@@ -177,7 +177,7 @@ export class NoteEdit extends Component {
       closeEdit,
       deleteNote,
       isNewNote,
-    } = this.props;
+    } = this.props
     return (
       <div className={classes.root}>
         {open ? (
@@ -185,7 +185,9 @@ export class NoteEdit extends Component {
             <Grid
               item
               xs={12}
-              className={`${classes.gridContainer} ${mouseOn ? classes.mouseOn : ''}`}
+              className={`${classes.gridContainer} ${
+                mouseOn ? classes.mouseOn : ''
+              }`}
               onMouseEnter={() => this.setState({ mouseOn: true })}
               onMouseLeave={() =>
                 setTimeout(() => this.setState({ mouseOn: false }), 100)
@@ -249,8 +251,8 @@ export class NoteEdit extends Component {
           </ClickAwayListener>
         ) : null}
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(NoteEdit);
+export default withStyles(styles)(NoteEdit)

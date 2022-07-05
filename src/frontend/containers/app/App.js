@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { theme } from '../../theme';
-import Router from '../../router/Router';
+import React, { Component } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import { theme } from '../../theme'
+import Router from '../../router/Router'
 
 const styles = {
   root: {
@@ -14,17 +14,17 @@ const styles = {
       padding: '5px',
     },
   },
-};
+}
 
 export class App extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <div className={classes.root}>
         <Router />
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(App)
