@@ -20,7 +20,6 @@ const store = configureStore({
   middleware: [...getDefaultMiddleware(), sagaMiddleware],
 })
 sagaMiddleware.run(rootSaga)
-//window.store = store;
 
 ReactDOM.render(
   <Provider store={store}>
