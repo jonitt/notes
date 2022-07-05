@@ -56,7 +56,6 @@ export class Notes extends Component {
   state = {}
 
   componentDidMount() {
-    console.log("täääl mä ooon notes")
     const { getNotes, dispatch } = this.props
     dispatch(getNotes())
   }

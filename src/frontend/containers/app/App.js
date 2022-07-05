@@ -17,11 +17,6 @@ const styles = {
 }
 
 export class App extends Component {
-  componentDidMount() {
-    console.log("APPPPPPPPPPPPPPPPPPPPPn")
-    //CHECK USER LOGGED IN OR NOT FROM BACKEND;
-    //IF LOGGED IN REDIRECt TO NOTES; HANDLE IN REDUX
-  }
   render() {
     const { classes } = this.props
     return (

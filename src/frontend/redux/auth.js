@@ -69,7 +69,6 @@ export default authReducer
 export function* checkAuthenticatedSaga() {
   const res = yield call(loginApi.checkAuthenticated)
   //if authenticated, redirect to main content page
-    console.log("tasdasdasdäääl mä ooon login saga", res)
   if (res.redirect) {
     history.push(res.redirect)
   } else yield put({ type: setFinishedLoading.type, payload: true })
@@ -82,7 +81,7 @@ export function* loginSaga(action) {
     if (!res.error) {
       yield put({ type: setLoginError.type, payload: '' })
       history.push('/notes')
-      //yield put({ type: setLoginSuccess.type, payload: true });
+      //yield put({ type: setLoginSuccess.type, payload: true }); TODO: why was this removed?
     } else {
       console.log(res.error)
       yield put({ type: setLoginError.type, payload: res.message })

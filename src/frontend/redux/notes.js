@@ -3,8 +3,6 @@ import { call, put, select, all, takeLatest } from 'redux-saga/effects'
 import * as notesApi from '../api/notes'
 import history from '../router/history'
 
-//INITIAL STATE
-
 const initialState = {
   notes: [],
   editOpen: false,
@@ -131,7 +129,6 @@ export function* closeEditSaga() {
 export function* getNotesSaga() {
   try {
     const res = yield call(notesApi.fetchNotes)
-    console.log("täääl mä ooon", res)
     if (res.redirect) {
       history.push(res.redirect)
     } else {
