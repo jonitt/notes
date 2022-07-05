@@ -4,12 +4,12 @@ var db = require("./model");
 var router = require('../router');
 router.get('/notes', function (req, res) {
     if (!req.session.userId) {
-        res.redirect('/login');
+        return res.status(302).json({ redirect: '/login' });
     }
 });
 function isProtected(req, res, next) {
     if (!req.session.userId) {
-        return next(res.status(401).json({ redirect: '/login' }));
+        return next(res.status(302).json({ redirect: '/login' }));
     }
     else
         return next();

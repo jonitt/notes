@@ -52,12 +52,12 @@ var router = require('../router');
 var db = require('./model');
 router.get('/register', function (req, res) {
     if (req.session.userId) {
-        res.redirect('/notes');
+        return res.status(302).json({ redirect: '/notes' });
     }
 });
 router.get('/login', function (req, res) {
     if (req.session.userId) {
-        res.redirect('/notes');
+        return res.status(302).json({ redirect: '/notes' });
     }
 });
 router.post('/api/v1/register', function (req, res) {
@@ -74,7 +74,6 @@ router.post('/api/v1/register', function (req, res) {
 });
 router.get('/api/v1/authenticated', function (req, res) {
     if (req.session.userId) {
-        console.log("##### # ## # " + res);
         res.status(302).json({ redirect: '/notes' });
     }
     else
@@ -94,7 +93,7 @@ router.post('/api/v1/login', function (req, res, next) {
             return res.status(401).json(__assign({ error: true }, info));
         }
         req.session.userId = user.id;
-        return res.redirect('/notes');
+        return res.status(302).json({ redirect: '/notes' });
     })(req, res, next);
 });
 module.exports = router;

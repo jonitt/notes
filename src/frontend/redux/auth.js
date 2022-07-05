@@ -84,6 +84,7 @@ export function* loginSaga(action) {
       history.push('/notes')
       //yield put({ type: setLoginSuccess.type, payload: true });
     } else {
+      console.log(res.error)
       yield put({ type: setLoginError.type, payload: res.message })
     }
   } catch (err) {

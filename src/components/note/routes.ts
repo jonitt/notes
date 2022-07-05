@@ -4,13 +4,13 @@ const router = require('../router')
 
 router.get('/notes', function(req: Request, res: Response) {
   if (!req.session.userId) {
-    res.redirect('/login')
+    return res.status(302).json({ redirect: '/login' })
   }
 })
 
 function isProtected(req: Request, res: Response, next: NextFunction) {
   if (!req.session.userId) {
-    return next(res.status(401).json({ redirect: '/login' }))
+    return next(res.status(302).json({ redirect: '/login' }))
   } else return next()
 }
 
