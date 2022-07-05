@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateLogin = exports.validateRegister = void 0;
 var bcrypt = require('bcrypt');
 exports.validateRegister = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -53,19 +53,19 @@ exports.validateRegister = function (req, res) { return __awaiter(void 0, void 0
                 if (password.length < 8) {
                     res.status(400).json({
                         error: true,
-                        message: 'Password has to be at least 8 characters long'
+                        message: 'Password has to be at least 8 characters long',
                     });
                 }
                 if (password !== passwordRepeat) {
                     res.status(400).json({ error: true, message: 'Passwords do not match' });
                 }
-                return [4, req.app.get('db').connect()];
+                return [4 /*yield*/, req.app.get('db').connect()];
             case 1:
                 client = _b.sent();
                 _b.label = 2;
             case 2:
                 _b.trys.push([2, 4, , 5]);
-                return [4, client.query('SELECT * FROM users WHERE username = $1', [username], function (error, results) {
+                return [4 /*yield*/, client.query('SELECT * FROM users WHERE username = $1', [username], function (error, results) {
                         console.log('after initiated query on register!');
                         if (error) {
                             console.log('#asd 2 2 2');
@@ -94,12 +94,12 @@ exports.validateRegister = function (req, res) { return __awaiter(void 0, void 0
             case 3:
                 _b.sent();
                 client.release();
-                return [3, 5];
+                return [3 /*break*/, 5];
             case 4:
                 e_1 = _b.sent();
                 console.log(e_1);
-                return [3, 5];
-            case 5: return [2];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
@@ -107,7 +107,7 @@ exports.validateLogin = function (username, password, done, db) { return __await
     var client;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, db.connect()];
+            case 0: return [4 /*yield*/, db.connect()];
             case 1:
                 client = _a.sent();
                 client.query('SELECT * FROM users WHERE username = $1', [username], function (error, results) {
@@ -130,9 +130,8 @@ exports.validateLogin = function (username, password, done, db) { return __await
                     }
                 });
                 client.release();
-                return [2];
+                return [2 /*return*/];
         }
     });
 }); };
 module.exports = { validateLogin: exports.validateLogin, validateRegister: exports.validateRegister };
-//# sourceMappingURL=model.js.map

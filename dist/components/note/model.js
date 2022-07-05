@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteNote = exports.updateNote = exports.addNote = exports.getNotes = void 0;
 exports.getNotes = function (req, response) { return __awaiter(void 0, void 0, void 0, function () {
     var userId, client;
@@ -43,7 +43,7 @@ exports.getNotes = function (req, response) { return __awaiter(void 0, void 0, v
         switch (_a.label) {
             case 0:
                 userId = req.session.userId;
-                return [4, req.app.get('db').connect()];
+                return [4 /*yield*/, req.app.get('db').connect()];
             case 1:
                 client = _a.sent();
                 client.query('SELECT * FROM notes WHERE user_id = $1 ORDER BY id ASC', [userId], function (error, results) {
@@ -53,7 +53,7 @@ exports.getNotes = function (req, response) { return __awaiter(void 0, void 0, v
                     response.status(200).json({ notes: results.rows });
                 });
                 client.release();
-                return [2];
+                return [2 /*return*/];
         }
     });
 }); };
@@ -64,7 +64,7 @@ exports.addNote = function (req, response) { return __awaiter(void 0, void 0, vo
             case 0:
                 _a = req.body, note = _a.note, date = _a.date, info = _a.info;
                 userId = req.session.userId;
-                return [4, req.app.get('db').connect()];
+                return [4 /*yield*/, req.app.get('db').connect()];
             case 1:
                 client = _b.sent();
                 client.query("INSERT INTO notes (note, date, info, user_id) VALUES ($1, $2, $3, $4)", [note, date, info, userId], function (error, results) {
@@ -74,7 +74,7 @@ exports.addNote = function (req, response) { return __awaiter(void 0, void 0, vo
                     response.status(201).json(true);
                 });
                 client.release();
-                return [2];
+                return [2 /*return*/];
         }
     });
 }); };
@@ -83,10 +83,11 @@ exports.updateNote = function (req, response) { return __awaiter(void 0, void 0,
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                id = parseInt(req.params.id);
+                id = parseInt(req.params.id) //note's id
+                ;
                 _a = req.body, note = _a.note, date = _a.date, info = _a.info;
                 userId = req.session.userId;
-                return [4, req.app.get('db').connect()];
+                return [4 /*yield*/, req.app.get('db').connect()];
             case 1:
                 client = _b.sent();
                 client.query('UPDATE notes SET note = $1, date = $2, info = $3, user_id = $4 WHERE id = $5', [note, date, info, userId, id], function (error, results) {
@@ -96,7 +97,7 @@ exports.updateNote = function (req, response) { return __awaiter(void 0, void 0,
                     response.status(200).send("Note edited, ID: " + id);
                 });
                 client.release();
-                return [2];
+                return [2 /*return*/];
         }
     });
 }); };
@@ -106,7 +107,7 @@ exports.deleteNote = function (req, response) { return __awaiter(void 0, void 0,
         switch (_a.label) {
             case 0:
                 id = parseInt(req.params.id);
-                return [4, req.app.get('db').connect()];
+                return [4 /*yield*/, req.app.get('db').connect()];
             case 1:
                 client = _a.sent();
                 client.query('DELETE FROM notes WHERE id = $1', [id], function (error, results) {
@@ -116,8 +117,7 @@ exports.deleteNote = function (req, response) { return __awaiter(void 0, void 0,
                     response.status(200).send("Note deleted, ID: " + id);
                 });
                 client.release();
-                return [2];
+                return [2 /*return*/];
         }
     });
 }); };
-//# sourceMappingURL=model.js.map

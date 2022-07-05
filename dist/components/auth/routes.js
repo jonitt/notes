@@ -46,7 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var passport = require('passport');
 var router = require('../router');
 var db = require('./model');
@@ -60,29 +60,22 @@ router.get('/login', function (req, res) {
         res.redirect('/notes');
     }
 });
-router.get('/api/v1/register', function (req, res) {
-    if (req.session.userId) {
-        res.redirect('/notes');
-    }
-    else {
-        res.redirect('/login');
-    }
-});
 router.post('/api/v1/register', function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4, db.validateRegister(req, res)];
+                case 0: return [4 /*yield*/, db.validateRegister(req, res)];
                 case 1:
                     _a.sent();
-                    return [2];
+                    return [2 /*return*/];
             }
         });
     });
 });
 router.get('/api/v1/authenticated', function (req, res) {
     if (req.session.userId) {
-        res.status(301).json({ redirect: '/notes' });
+        console.log("##### # ## # " + res);
+        res.status(302).json({ redirect: '/notes' });
     }
     else
         res.status(200).json('Not logged in');
@@ -90,12 +83,9 @@ router.get('/api/v1/authenticated', function (req, res) {
 router.post('/api/v1/logout', function (req, res) {
     req.session.destroy(function (err) { return console.log(err); });
     req.logout();
-    res.status(301).json({ redirect: '/login' });
+    res.status(302).json({ redirect: '/login' });
 });
-router.get('/login', function (req, res) {
-    res.redirect('/');
-});
-router.post('/login', function (req, res, next) {
+router.post('/api/v1/login', function (req, res, next) {
     passport.authenticate('local', function (e, user, info) {
         if (e) {
             console.log(e);
@@ -108,4 +98,3 @@ router.post('/login', function (req, res, next) {
     })(req, res, next);
 });
 module.exports = router;
-//# sourceMappingURL=routes.js.map

@@ -68,10 +68,10 @@ export default authReducer
 
 export function* checkAuthenticatedSaga() {
   const res = yield call(loginApi.checkAuthenticated)
-  console.log('cjecl auht, ', res)
   //if authenticated, redirect to main content page
+    console.log("tasdasdasdäääl mä ooon login saga", res)
   if (res.redirect) {
-    //history.push(res.redirect)
+    history.push(res.redirect)
   } else yield put({ type: setFinishedLoading.type, payload: true })
 }
 
@@ -81,7 +81,7 @@ export function* loginSaga(action) {
     const res = yield call(loginApi.login, username, password)
     if (!res.error) {
       yield put({ type: setLoginError.type, payload: '' })
-      //history.push('/notes')
+      history.push('/notes')
       //yield put({ type: setLoginSuccess.type, payload: true });
     } else {
       yield put({ type: setLoginError.type, payload: res.message })
@@ -97,7 +97,7 @@ export function* logoutSaga() {
     //redirect after log out
     if (res.redirect) {
       yield put({ type: notesSetFinishedLoading.type, payload: false })
-      //history.push(res.redirect)
+      history.push(res.redirect)
     }
   } catch (err) {
     console.log(err)
@@ -115,7 +115,7 @@ export function* registerSaga(action) {
     )
     if (!res.error) {
       yield put({ type: setRegisterError.type, payload: '' })
-      //history.push('/login')
+      history.push('/login')
     } else {
       yield put({ type: setRegisterError.type, payload: res.message })
     }

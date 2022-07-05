@@ -10,7 +10,7 @@ const baseUrl = process.env.SERVER_URL + 'api/v1/'
 
 export const checkAuthenticated = () =>
   fetch(`${baseUrl}authenticated`, params)
-    .then(res => res.json())
+    .then(res => {console.log(res); return res.json() })
     .catch(err => console.log(err))
 
 export const login = (username, password) =>

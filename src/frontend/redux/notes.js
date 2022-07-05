@@ -131,8 +131,9 @@ export function* closeEditSaga() {
 export function* getNotesSaga() {
   try {
     const res = yield call(notesApi.fetchNotes)
+    console.log("täääl mä ooon", res)
     if (res.redirect) {
-      //history.push(res.redirect)
+      history.push(res.redirect)
     } else {
       yield put({ type: setNotes.type, payload: res.notes })
       yield put({ type: setFinishedLoading.type, payload: true })

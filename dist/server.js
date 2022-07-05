@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var express = require('express');
 var path = require('path');
@@ -19,7 +19,7 @@ var server = express();
 var client = redis.createClient(process.env.REDIS_URL);
 server.use(cors({
     origin: true,
-    credentials: true
+    credentials: true,
 }));
 server.use(bodyParser());
 server.use(function (req, res, next) {
@@ -35,13 +35,14 @@ server.use(session({
     saveUninitialized: false,
     store: new redisStore({ client: client }),
     cookie: {
-        httpOnly: true
-    }
+        //secure: process.env.ENV == 'prod', TODO: has to support https
+        httpOnly: true,
+    },
 }));
 var pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     idleTimeoutMillis: 60000,
-    connectionTimeoutMillis: 20000
+    connectionTimeoutMillis: 20000,
 });
 server.set('db', pool);
 server.use(passport.initialize());
@@ -65,7 +66,7 @@ function initiateHeader(res) {
     res.set({
         'X-XSS-Protection': '1; mode=block',
         'X-Frame-Options': 'DENY',
-        'X-Content-Type-Options': 'nosniff'
+        'X-Content-Type-Options': 'nosniff',
     });
     return res;
 }
@@ -73,4 +74,3 @@ var port = process.env.PORT || 3000;
 server.listen(port, function () {
     console.log("Listening on " + port + "!");
 });
-//# sourceMappingURL=server.js.map

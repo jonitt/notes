@@ -39,6 +39,7 @@ export class Login extends Component {
   }
 
   componentDidMount() {
+    console.log("täääl mä ooon login")
     //CHECK USER LOGGED IN OR NOT FROM BACKEND;
     //IF LOGGED IN REDIRECt TO NOTES; HANDLE IN REDUX
     this.props.checkAuthenticated()
