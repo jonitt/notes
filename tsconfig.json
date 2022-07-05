@@ -3,11 +3,9 @@
     "types": ["node", "express", "express-session"],
     "typeRoots": ["../node_modules/@types"],
     "module": "commonjs",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
+    "target": "ES5",
     "outDir": "dist",
-    "sourceMap": true
+    "rootDir": "src"
   },
   "include": ["src/"],
   "exclude": ["node_modules", "**/*.spec.ts"]

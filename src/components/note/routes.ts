@@ -1,35 +1,42 @@
-const express = require('express');
-import { Request, Response, NextFunction } from 'express';
-const router = require('../../lib/router');
-import * as db from './model';
-import { NetConnectOpts } from 'net';
+import { Request, Response, NextFunction } from 'express'
+import * as db from './model'
+const router = require('../router')
+
+router.get('/notes', function(req: Request, res: Response) {
+  if (!req.session.userId) {
+    return res.status(302).json({ redirect: '/login' })
+  }
+})
 
 function isProtected(req: Request, res: Response, next: NextFunction) {
   if (!req.session.userId) {
-    return next(res.status(401).json({ redirect: '/login' }));
-  } else return next();
+    return next(res.status(302).json({ redirect: '/login' }))
+  } else return next()
 }
 
-router.get('/notes', isProtected, function(req: Request, res: Response) {
-  db.getNotes(req, res);
-});
+router.get('/api/v1/notes', isProtected, function(req: Request, res: Response) {
+  db.getNotes(req, res)
+})
 
-router.delete('/notes/:id(\\d+)', isProtected, function(
+router.delete('/api/v1/notes/:id(\\d+)', isProtected, function(
   req: Request,
   res: Response
 ) {
-  db.deleteNote(req, res);
-});
+  db.deleteNote(req, res)
+})
 
-router.post('/notes', isProtected, function(req: Request, res: Response) {
-  db.addNote(req, res);
-});
-
-router.put('/notes/:id(\\d+)', isProtected, function(
+router.post('/api/v1/notes', isProtected, function(
   req: Request,
   res: Response
 ) {
-  db.updateNote(req, res);
-});
+  db.addNote(req, res)
+})
 
-module.exports = router;
+router.put('/api/v1/notes/:id(\\d+)', isProtected, function(
+  req: Request,
+  res: Response
+) {
+  db.updateNote(req, res)
+})
+
+module.exports = router

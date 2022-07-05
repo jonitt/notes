@@ -1,40 +1,40 @@
-import BASE_URL from '../utils/baseurl';
-
 const params = {
   mode: 'cors',
   credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
   },
-};
+}
+
+const baseUrl = process.env.SERVER_URL + 'api/v1/'
 
 export const checkAuthenticated = () =>
-  fetch(`${BASE_URL}authenticated`, params)
-    .then(res => res.json())
-    .catch(err => console.log(err));
+  fetch(`${baseUrl}authenticated`, params)
+    .then(res => {console.log(res); return res.json() })
+    .catch(err => console.log(err))
 
 export const login = (username, password) =>
-  fetch(`${BASE_URL}login`, {
+  fetch(`${baseUrl}login`, {
     ...params,
     method: 'POST',
     body: JSON.stringify({ username, password }),
   })
     .then(res => res.json())
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
 
 export const logout = () =>
-  fetch(`${BASE_URL}logout`, {
+  fetch(`${baseUrl}logout`, {
     ...params,
     method: 'POST',
   })
     .then(res => res.json())
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
 
 export const register = (username, password, passwordRepeat) =>
-  fetch(`${BASE_URL}register`, {
+  fetch(`${baseUrl}register`, {
     ...params,
     method: 'POST',
     body: JSON.stringify({ username, password, passwordRepeat }),
   })
     .then(res => res.json())
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))

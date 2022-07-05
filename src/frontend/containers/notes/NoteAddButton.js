@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Grid,
   Card,
@@ -10,9 +10,9 @@ import {
   Divider,
   TextField,
   IconButton,
-} from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { theme } from '../../theme';
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { theme } from '../../theme'
 
 const styles = {
   plus: {
@@ -27,21 +27,27 @@ const styles = {
     [theme.breakpoints.down('xs')]: {
       left: 'auto',
       right: 20,
-      top: 20
+      top: 20,
     },
   },
   buttonDisabled: {
     color: '#373737',
   },
-};
+}
 
 export class NoteAddButton extends Component {
-  state = {};
+  state = {}
 
   render() {
-    const { classes, editOpen, openEdit } = this.props;
-    return <IconButton disabled={editOpen} className={`fas fa-plus ${classes.plus}`} onClick={() => openEdit()}/>;
+    const { classes, editOpen, openEdit } = this.props
+    return (
+      <IconButton
+        disabled={editOpen}
+        className={`fas fa-plus ${classes.plus}`}
+        onClick={() => openEdit()}
+      />
+    )
   }
 }
 
-export default withStyles(styles)(NoteAddButton);
+export default withStyles(styles)(NoteAddButton)

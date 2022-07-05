@@ -1,11 +1,12 @@
 var _a = require('pg'), Pool = _a.Pool, Client = _a.Client;
 var cred = require('./credentials/user');
-var client = new Client({
+console.log('#######' + process.env.ENV);
+module.exports = new Pool({
     connectionString: process.env.DATABASE_URL,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
     ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: process.env.ENV == 'prod'
     }
 });
-client.connect();
-module.exports = client;
 //# sourceMappingURL=pool.js.map

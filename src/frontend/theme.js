@@ -1,11 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
-import cyan from '@material-ui/core/colors/cyan';
+import { createMuiTheme } from '@material-ui/core/styles'
 
 export const theme = createMuiTheme({
   palette: {
     primary: { main: '#959595' },
-    secondary: { main: '#404040', },
+    secondary: { main: '#404040' },
   },
   breakpoints: {
     values: {
@@ -70,6 +68,6 @@ export const theme = createMuiTheme({
       color: '#CCCCCC',
     },
   },
-});
+})
 
-export default theme;
+export default theme

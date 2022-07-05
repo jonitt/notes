@@ -1,17 +1,12 @@
 //handle login and register by bool
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import {
-  Grid,
-  Typography,
-  TextField,
-  Button,
-} from '@material-ui/core';
-import { bindActionCreators } from 'redux';
-import { withStyles } from '@material-ui/core/styles';
-import { login, register, checkAuthenticated } from '../../redux/auth';
-import { Link, Redirect } from 'react-router-dom';
-import { theme } from '../../theme';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Grid, Typography, TextField, Button } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
+import { withStyles } from '@material-ui/core/styles'
+import { login, register, checkAuthenticated } from '../../redux/auth'
+import { Link, Redirect } from 'react-router-dom'
+import { theme } from '../../theme'
 
 const styles = {
   root: {
@@ -25,7 +20,7 @@ const styles = {
     [theme.breakpoints.down('xs')]: {
       marginTop: '10px',
       width: '90%',
-      maxWidth: '390px'
+      maxWidth: '390px',
     },
   },
   field: {
@@ -34,37 +29,37 @@ const styles = {
   button: {
     marginTop: '27px',
   },
-};
+}
 
 export class Login extends Component {
   state = {
     username: '',
     password: '',
     passwordRepeat: '',
-  };
+  }
 
   componentDidMount() {
     //CHECK USER LOGGED IN OR NOT FROM BACKEND;
     //IF LOGGED IN REDIRECt TO NOTES; HANDLE IN REDUX
-    this.props.checkAuthenticated();
+    this.props.checkAuthenticated()
   }
 
   handleChangeUsername(e) {
-    const username = e.target.value;
+    const username = e.target.value
 
-    this.setState({ username });
+    this.setState({ username })
   }
 
   handleChangePassword(e) {
-    const password = e.target.value;
+    const password = e.target.value
 
-    this.setState({ password });
+    this.setState({ password })
   }
 
   handleChangePasswordRepeat(e) {
-    const passwordRepeat = e.target.value;
+    const passwordRepeat = e.target.value
 
-    this.setState({ passwordRepeat });
+    this.setState({ passwordRepeat })
   }
 
   render() {
@@ -78,8 +73,8 @@ export class Login extends Component {
       registerError,
       register,
       finishedLoading,
-    } = this.props;
-    const { username, password, passwordRepeat } = this.state;
+    } = this.props
+    const { username, password, passwordRepeat } = this.state
     return finishedLoading ? (
       <div className={classes.root}>
         <Grid container justify='center'>
@@ -145,7 +140,7 @@ export class Login extends Component {
           )}
         </Grid>
       </div>
-    ) : null;
+    ) : null
   }
 }
 
@@ -162,4 +157,4 @@ export default connect(
     checkAuthenticated: bindActionCreators(checkAuthenticated, dispatch),
     dispatch,
   })
-)(withStyles(styles)(Login));
+)(withStyles(styles)(Login))

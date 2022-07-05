@@ -1,6 +1,8 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const Dotenv = require('dotenv-webpack');
 module.exports = {
+  watch: true,
   mode: 'development',
   entry: ['babel-polyfill', './src/frontend/index.js'],
   devtool: 'source-map',
@@ -65,5 +67,6 @@ module.exports = {
       template: './template.html',
       filename: './index.html',
     }),
+    new Dotenv()
   ],
-};
+}

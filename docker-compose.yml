@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:11.4
+    restart: always
+    environment:
+      POSTGRES_DB: notes_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '127.0.0.1:6379:6379'
+    command: redis-server --requirepass password
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local

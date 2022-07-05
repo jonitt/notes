@@ -1,27 +1,14 @@
-import { combineReducers } from 'redux';
-import { createAction, createReducer, createSlice } from '@reduxjs/toolkit';
-import { delay, takeEvery } from 'redux-saga';
-import {
-  fork,
-  call,
-  put,
-  spawn,
-  take,
-  select,
-  all,
-  takeLatest,
-} from 'redux-saga/effects';
-import * as notesApi from '../api/notes';
-import history from '../router/history';
-
-//INITIAL STATE
+import { createSlice } from '@reduxjs/toolkit'
+import { call, put, select, all, takeLatest } from 'redux-saga/effects'
+import * as notesApi from '../api/notes'
+import history from '../router/history'
 
 const initialState = {
   notes: [],
   editOpen: false,
   selectedIndex: -1,
   finishedLoading: false,
-};
+}
 
 //########################################################################
 //############################ REDUCERS ##################################
@@ -48,7 +35,7 @@ const notesSlice = createSlice({
       finishedLoading: action.payload,
     }),
   },
-});
+})
 
 export const {
   getNotes,
@@ -61,10 +48,10 @@ export const {
   addNote,
   submitNote,
   setFinishedLoading,
-} = notesSlice.actions;
+} = notesSlice.actions
 
-const notesReducer = notesSlice.reducer;
-export default notesReducer;
+const notesReducer = notesSlice.reducer
+export default notesReducer
 
 //########################################################################
 //############################# SAGAS ####################################
@@ -72,85 +59,84 @@ export default notesReducer;
 
 export function* submitNoteSaga(action) {
   try {
-    const { note, date, info, id } = action.payload;
-    let notes = yield select(getNotesSelect);
+    const { note, date, info, id } = action.payload
+    let notes = yield select(getNotesSelect)
     if (id) {
-      const index = yield select(getSelectedIndexSelect);
-      yield call(notesApi.editNote, note, date, info, id);
-      let newNotes = notes.slice(0, index);
-      newNotes.push({ note, date, info, id });
-      newNotes = newNotes.concat(notes.slice(index + 1));
-      yield put({ type: setNotes.type, payload: newNotes });
+      const index = yield select(getSelectedIndexSelect)
+      yield call(notesApi.editNote, note, date, info, id)
+      let newNotes = notes.slice(0, index)
+      newNotes.push({ note, date, info, id })
+      newNotes = newNotes.concat(notes.slice(index + 1))
+      yield put({ type: setNotes.type, payload: newNotes })
     } else {
-      yield call(notesApi.addNote, note, date, info);
-      yield put({ type: getNotes.type });
+      yield call(notesApi.addNote, note, date, info)
+      yield put({ type: getNotes.type })
     }
-    yield put({ type: setSelectedIndex.type, payload: -1 });
-    yield put({ type: setEditOpen.type, payload: false });
+    yield put({ type: setSelectedIndex.type, payload: -1 })
+    yield put({ type: setEditOpen.type, payload: false })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 export function* deleteNoteSaga(action) {
   try {
-    const index = action.payload;
-    let notes = yield select(getNotesSelect);
+    const index = action.payload
+    let notes = yield select(getNotesSelect)
 
-    const note = notes[index];
-    //notes.splice(index, 1);
-    notes = notes.slice(0, index).concat(notes.slice(index + 1));
-    yield call(notesApi.deleteNote, note.id);
-    yield put({ type: setNotes.type, payload: notes });
-    yield put({ type: setSelectedIndex.type, payload: -1 });
-    yield put({ type: setEditOpen.type, payload: false });
+    const note = notes[index]
+    notes = notes.slice(0, index).concat(notes.slice(index + 1))
+    yield call(notesApi.deleteNote, note.id)
+    yield put({ type: setNotes.type, payload: notes })
+    yield put({ type: setSelectedIndex.type, payload: -1 })
+    yield put({ type: setEditOpen.type, payload: false })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 export function* addNoteSaga() {
   try {
-    yield put({ type: setEditOpen.type, payload: false });
+    yield put({ type: setEditOpen.type, payload: false })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 export function* openEditSaga(action) {
   try {
-    const index = action.payload;
+    const index = action.payload
     if (index >= 0) {
-      yield put({ type: setSelectedIndex.type, payload: index });
+      yield put({ type: setSelectedIndex.type, payload: index })
     } else {
-      yield put({ type: setSelectedIndex.type, payload: -1 });
+      yield put({ type: setSelectedIndex.type, payload: -1 })
     }
-    yield put({ type: setEditOpen.type, payload: true });
+    yield put({ type: setEditOpen.type, payload: true })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 export function* closeEditSaga() {
   try {
-    yield put({ type: setSelectedIndex.type, payload: -1 });
-    yield put({ type: setEditOpen.type, payload: false });
+    yield put({ type: setSelectedIndex.type, payload: -1 })
+    yield put({ type: setEditOpen.type, payload: false })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 export function* getNotesSaga() {
   try {
-    const res = yield call(notesApi.fetchNotes);
+    const res = yield call(notesApi.fetchNotes)
     if (res.redirect) {
-      history.push(res.redirect);
+      history.push(res.redirect)
     } else {
-      yield put({ type: setNotes.type, payload: res.notes });
-      yield put({ type: setFinishedLoading.type, payload: true });
+      yield put({ type: setNotes.type, payload: res.notes })
+      yield put({ type: setFinishedLoading.type, payload: true })
     }
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
@@ -165,12 +151,12 @@ export function* watchNotes() {
     takeLatest(openEdit.type, openEditSaga),
     takeLatest(closeEdit.type, closeEditSaga),
     takeLatest(deleteNote.type, deleteNoteSaga),
-  ]);
+  ])
 }
 
 //########################################################################
 //########################### SELECTORS ##################################
 //########################################################################
 
-export const getNotesSelect = state => state.notes.notes;
-export const getSelectedIndexSelect = state => state.notes.selectedIndex;
+export const getNotesSelect = state => state.notes.notes
+export const getSelectedIndexSelect = state => state.notes.selectedIndex
