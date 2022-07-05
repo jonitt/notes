@@ -27,6 +27,7 @@ server.use(function (req, res, next) {
     next();
 });
 server.use(express.static(path.join(__dirname + '/frontend')));
+server.use(/^\/notes|\/login|\/register$/, express.static(path.join(__dirname + '/frontend')));
 server.use(express.urlencoded());
 server.use(express.json());
 server.use(session({

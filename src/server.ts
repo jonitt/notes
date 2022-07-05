@@ -30,6 +30,7 @@ server.use((req: Request, res: Response, next: Function) => {
   next()
 })
 server.use(express.static(path.join(__dirname + '/frontend')))
+server.use(/^\/notes|\/login|\/register$/, express.static(path.join(__dirname + '/frontend')))
 server.use(express.urlencoded())
 server.use(express.json())
 server.use(

@@ -66,19 +66,15 @@ exports.validateRegister = function (req, res) { return __awaiter(void 0, void 0
             case 2:
                 _b.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, client.query('SELECT * FROM users WHERE username = $1', [username], function (error, results) {
-                        console.log('after initiated query on register!');
                         if (error) {
-                            console.log('#asd 2 2 2');
                             throw error;
                         }
                         if (results.rows.length > 0) {
-                            console.log('#asda sd asdasd');
                             res
                                 .status(400)
                                 .json({ error: true, message: 'Username already taken' });
                         }
                         else {
-                            console.log('#asd asd asda');
                             bcrypt.hash(password, 12, function (err, hash) {
                                 client.query("INSERT INTO users (username, password) VALUES ($1, $2)", [username, hash], function (error, results) {
                                     if (error) {

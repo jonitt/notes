@@ -24,18 +24,14 @@ export const validateRegister = async (req: Request, res: Response) => {
       'SELECT * FROM users WHERE username = $1',
       [username],
       (error: Error, results: any) => {
-        console.log('after initiated query on register!')
         if (error) {
-          console.log('#asd 2 2 2')
           throw error
         }
         if (results.rows.length > 0) {
-          console.log('#asda sd asdasd')
           res
             .status(400)
             .json({ error: true, message: 'Username already taken' })
         } else {
-          console.log('#asd asd asda')
           bcrypt.hash(password, 12, (err: Error, hash: String) => {
             client.query(
               `INSERT INTO users (username, password) VALUES ($1, $2)`,
